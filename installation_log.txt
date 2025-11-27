@@ -2299,3 +2299,15 @@ Riferimento a variabile non valido. ':' non è seguito da un carattere del nome d
 [2025-11-27 20:45:56] Scarico ZIP EA per aggiornare tutte le installazioni MT5 (https://storage.arbitexcorp.com/U0y23wTqtbby.zip)
 [2025-11-27 20:46:26] ERRORE download EA zip: Errore del server remoto: (504) Timeout gateway.
 [2025-11-27 20:46:26] Completato: Aggiornamento EA in tutte le installazioni MT5
+[2025-11-27 21:43:08] Self-update Arbitex VPS Installer completato con successo.
+[2025-11-27 21:44:16] === AVVIO ARBITEX VPS Installation Wizard ===
+[2025-11-27 21:44:16] Modulo caricato: arbitex_installer.ps1
+[2025-11-27 21:44:16] Modulo caricato: arbitex_update_ea.ps1
+[2025-11-27 21:44:16] Modulo caricato: arbitex_update_config.ps1
+[2025-11-27 21:44:16] Modulo caricato: arbitex_cleanup.ps1
+[2025-11-27 21:44:16] Modulo caricato: arbitex_selfupdate.ps1
+[2025-11-27 21:44:16] Verifica aggiornamenti per Arbitex VPS Installer...
+[2025-11-27 21:44:16] Versione locale installer: 1.0.1
+[2025-11-27 21:44:17] Versione remota installer: 1.0.1
+[2025-11-27 21:44:17] Installer gia aggiornato (locale=1.0.1, remoto=1.0.1)
+[2025-11-27 21:44:17] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
