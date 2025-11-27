@@ -1,0 +1,31 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+
+# Installer MT5 (troppo grande)
+Programs/4_mt5setup.exe
+Programs/*.exe
+
+# Log files
+*.log
+installation_log.txt
+
+# Temporary files
+*.tmp
+*.temp
+~*
+
+# Windows temporary
+Thumbs.db
+.DS_Store
+
+# User local configs
+*.local.ps1
+
+# IDE
+.vscode/
+.idea/
+
+# Directories with sensitive data
+output/
+temp/

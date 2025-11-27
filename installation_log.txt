@@ -1,0 +1,598 @@
+[2025-11-24 18:50:00] Avvio: Aggiornamento EA in tutte le installazioni MT5
+[2025-11-24 18:50:00] Aggiornamento EA completato.
+[2025-11-24 18:50:42] Avvio: Aggiornamento EA dentro le cartelle config standard
+[2025-11-24 18:50:42] Scarico ZIP EA per aggiornare cartelle config standard (https://storage.arbitexcorp.com/U0y23wTqtbby.zip)
+[2025-11-24 18:50:43] Download EA config completato.
+[2025-11-24 18:50:43] EA aggiornati dentro cartelle config.
+[2025-11-24 18:50:43] Aggiornamento EA config completato.
+[2025-11-24 18:54:02] Uscita dal wizard.
+[2025-11-24 18:55:38] Avvio: Pulizia totale di tutte le installazioni MT5
+[2025-11-24 18:55:38] ERRORE CRITICO: Termine 'Remove-AllMT5Installations' non riconosciuto come nome di cmdlet, funzione, programma eseguibile o file script. Controllare l'ortografia del nome o verificare che il percorso sia incluso e corretto, quindi riprovare.
+[2025-11-24 18:57:40] ERRORE CRITICO: In C:\Users\pc\Downloads\arbitex-12112025\arbitex_cleanup.ps1:42 car:76
++ ... te-Host "`nðŸ§¹ Pulizia totale completata. Tutto MetaTrader rimosso!"
++                                                                         ~
+Carattere di terminazione mancante nella stringa: ".
+
+In C:\Users\pc\Downloads\arbitex-12112025\arbitex_cleanup.ps1:10 car:34
++     if (Test-Path $terminalRoot) {
++                                  ~
+'}' di chiusura mancante nel blocco di istruzioni o nella definizione del tipo.
+
+In C:\Users\pc\Downloads\arbitex-12112025\arbitex_cleanup.ps1:1 car:37
++ function Remove-AllMT5Installations {
++                                     ~
+'}' di chiusura mancante nel blocco di istruzioni o nella definizione del tipo.
+[2025-11-24 18:59:51] Avvio: Pulizia totale di tutte le installazioni MT5
+[2025-11-24 18:59:53] Avvio pulizia totale MT5 dal sistema...
+[2025-11-24 18:59:53] Elimino cartella appdata: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\034585439976B866E2602DDB2977170D
+[2025-11-24 18:59:53] Elimino cartella appdata: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\27AF661B3A5D7D4B0E7A2CDAFCBF3698
+[2025-11-24 18:59:54] Elimino cartella appdata: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\4963406DE264C1E411B1B80FE4A2ADA6
+[2025-11-24 18:59:54] Elimino cartella appdata: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\5170492FF22B8C438BBD65CAF6B957F9
+[2025-11-24 18:59:54] Elimino cartella appdata: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\A96C2C699681823BCD65C1F72B640911
+[2025-11-24 18:59:54] Elimino cartella appdata: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\Common
+[2025-11-24 18:59:54] Elimino cartella appdata: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\Community
+[2025-11-24 18:59:54] Elimino cartella appdata: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075
+[2025-11-24 18:59:58] Elimino cartella appdata: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\DDD8AFAF0340F45CE01C531C8C20F6D1
+[2025-11-24 18:59:58] Elimino cartella appdata: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\E073E5B3F305FE26A331EDB689BE292D
+[2025-11-24 18:59:58] Elimino cartella appdata: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\F773FB9C314DA8F396F1624FD5229E5A
+[2025-11-24 18:59:58] Elimino cartella appdata: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\FDFD1BEA56F7F1C9F028154ED82184C2
+[2025-11-24 18:59:58] Elimino cartella appdata: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\FE8B4C11D77C0E45DB90ECF2154BB4E6
+[2025-11-24 18:59:59] Elimino directory installazione: C:\MetaTrader
+[2025-11-24 18:59:59] Pulizia totale MT5 completata.
+[2025-11-24 19:04:27] Avvio: Pulizia totale di tutte le installazioni MT5
+[2025-11-24 19:04:27] ERRORE CRITICO: Termine 'Remove-AllMT5Installations' non riconosciuto come nome di cmdlet, funzione, programma eseguibile o file script. Controllare l'ortografia del nome o verificare che il percorso sia incluso e corretto, quindi riprovare.
+[2025-11-24 19:05:21] Avvio: Pulizia totale di tutte le installazioni MT5
+[2025-11-24 19:05:23] Avvio ricerca e disinstallazione batch MetaTrader 5.
+[2025-11-24 19:06:02] Trovati 5 uninstallers MetaTrader 5.
+[2025-11-24 19:06:02] Avvio uninstall: C:\Program Files\MetaTrader 5\uninstall.exe
+[2025-11-24 19:06:02] Avvio uninstall: C:\Program Files\MetaTrader 5 - FTMO 1\uninstall.exe
+[2025-11-24 19:06:02] Avvio uninstall: C:\Program Files\MetaTrader 5 - FTMO 3\uninstall.exe
+[2025-11-24 19:06:03] Avvio uninstall: C:\Program Files\MetaTrader 5 - FundedNext 2\uninstall.exe
+[2025-11-24 19:06:03] Avvio uninstall: C:\Program Files\MetaTrader 5 - HEDGE\uninstall.exe
+[2025-11-24 19:22:22] ERRORE CRITICO: In C:\Users\pc\Downloads\arbitex-12112025\arbitex_cleanup.ps1:35 car:41
++         Write-Log "Candidato uninstall #$num: $($un.FullName) Dimensi ...
++                                         ~~~~~
+Riferimento a variabile non valido. ':' non è seguito da un carattere del nome di variabile valido. Provare a utilizzare ${} per delimitare il nome.
+[2025-11-24 19:22:54] ERRORE CRITICO: In C:\Users\pc\Downloads\arbitex-12112025\arbitex_cleanup.ps1:35 car:41
++         Write-Log "Candidato uninstall #$num: $($un.FullName) Dimensi ...
++                                         ~~~~~
+Riferimento a variabile non valido. ':' non è seguito da un carattere del nome di variabile valido. Provare a utilizzare ${} per delimitare il nome.
+[2025-11-24 19:24:31] ERRORE CRITICO: In C:\Users\pc\Downloads\arbitex-12112025\arbitex_cleanup.ps1:35 car:41
++         Write-Log "Candidato uninstall #$num: $($un.FullName) Dimensi ...
++                                         ~~~~~
+Riferimento a variabile non valido. ':' non è seguito da un carattere del nome di variabile valido. Provare a utilizzare ${} per delimitare il nome.
+[2025-11-24 19:27:16] ERRORE CRITICO: In C:\Users\pc\Downloads\arbitex-12112025\arbitex_cleanup.ps1:40 car:42
++         Write-Log ("Candidato uninstall #$num: $($un.FullName) Dimens ...
++                                          ~~~~~
+Riferimento a variabile non valido. ':' non è seguito da un carattere del nome di variabile valido. Provare a utilizzare ${} per delimitare il nome.
+[2025-11-24 19:27:51] ERRORE CRITICO: In C:\Users\pc\Downloads\arbitex-12112025\arbitex_cleanup.ps1:40 car:42
++         Write-Log ("Candidato uninstall #$num: $($un.FullName) Dimens ...
++                                          ~~~~~
+Riferimento a variabile non valido. ':' non è seguito da un carattere del nome di variabile valido. Provare a utilizzare ${} per delimitare il nome.
+[2025-11-24 19:32:51] Avvio: Pulizia totale di tutte le installazioni MT5
+[2025-11-24 19:32:54] Avvio scansione disinstallatori MT5...
+[2025-11-24 19:33:18] Trovati 5 uninstallers potenziali.
+[2025-11-24 19:33:18] Candidato uninstall #1: C:\Program Files\MetaTrader 5\uninstall.exe Dimensione:22838280
+[2025-11-24 19:33:18] Candidato uninstall #2: C:\Program Files\MetaTrader 5 - FTMO 1\uninstall.exe Dimensione:22838280
+[2025-11-24 19:33:18] Candidato uninstall #3: C:\Program Files\MetaTrader 5 - FTMO 3\uninstall.exe Dimensione:22838280
+[2025-11-24 19:33:19] Candidato uninstall #4: C:\Program Files\MetaTrader 5 - FundedNext 2\uninstall.exe Dimensione:22838280
+[2025-11-24 19:33:19] Candidato uninstall #5: C:\Program Files\MetaTrader 5 - HEDGE\uninstall.exe Dimensione:22838280
+[2025-11-24 19:33:29] Lancio uninstall manuale: C:\Program Files\MetaTrader 5\uninstall.exe
+[2025-11-24 19:36:29] Lancio uninstall manuale: C:\Program Files\MetaTrader 5 - FTMO 1\uninstall.exe
+[2025-11-24 19:36:44] Utente ha scelto di NON avviare uninstall: C:\Program Files\MetaTrader 5 - FTMO 3\uninstall.exe
+[2025-11-24 19:36:44] Utente ha scelto di NON avviare uninstall: C:\Program Files\MetaTrader 5 - FundedNext 2\uninstall.exe
+[2025-11-24 19:36:52] Lancio uninstall manuale: C:\Program Files\MetaTrader 5 - HEDGE\uninstall.exe
+[2025-11-24 19:38:06] Procedura uninstall manuale MT5 completata.
+[2025-11-24 19:38:12] Avvio: Pulizia totale di tutte le installazioni MT5
+[2025-11-24 19:38:14] Avvio scansione disinstallatori MT5...
+[2025-11-24 19:39:02] Trovati 5 uninstallers potenziali.
+[2025-11-24 19:39:02] Candidato uninstall #1: C:\Program Files\MetaTrader 5\uninstall.exe Dimensione:22838280
+[2025-11-24 19:39:02] Candidato uninstall #2: C:\Program Files\MetaTrader 5 - FTMO 1\uninstall.exe Dimensione:22838280
+[2025-11-24 19:39:02] Candidato uninstall #3: C:\Program Files\MetaTrader 5 - FTMO 3\uninstall.exe Dimensione:22838280
+[2025-11-24 19:39:02] Candidato uninstall #4: C:\Program Files\MetaTrader 5 - FundedNext 2\uninstall.exe Dimensione:22838280
+[2025-11-24 19:39:02] Candidato uninstall #5: C:\Program Files\MetaTrader 5 - HEDGE\uninstall.exe Dimensione:22838280
+[2025-11-24 19:39:02] Utente ha scelto di NON avviare uninstall: C:\Program Files\MetaTrader 5\uninstall.exe
+[2025-11-24 19:39:25] Lancio uninstall manuale: C:\Program Files\MetaTrader 5 - FTMO 1\uninstall.exe
+[2025-11-24 19:41:04] Avvio: Disinstallazione batch interattiva MT5
+[2025-11-24 19:41:06] Avvio scansione disinstallatori MT5...
+[2025-11-24 19:41:31] Trovati 5 uninstallers potenziali.
+[2025-11-24 19:41:31] Candidato uninstall #1: C:\Program Files\MetaTrader 5\uninstall.exe Dimensione:22838280
+[2025-11-24 19:41:31] Candidato uninstall #2: C:\Program Files\MetaTrader 5 - FTMO 1\uninstall.exe Dimensione:22838280
+[2025-11-24 19:41:31] Candidato uninstall #3: C:\Program Files\MetaTrader 5 - FTMO 3\uninstall.exe Dimensione:22838280
+[2025-11-24 19:41:31] Candidato uninstall #4: C:\Program Files\MetaTrader 5 - FundedNext 2\uninstall.exe Dimensione:22838280
+[2025-11-24 19:41:31] Candidato uninstall #5: C:\Program Files\MetaTrader 5 - HEDGE\uninstall.exe Dimensione:22838280
+[2025-11-24 19:41:58] Lancio uninstall manuale: C:\Program Files\MetaTrader 5\uninstall.exe
+[2025-11-24 19:42:25] Lancio uninstall manuale: C:\Program Files\MetaTrader 5 - FTMO 1\uninstall.exe
+[2025-11-24 19:42:45] Lancio uninstall manuale: C:\Program Files\MetaTrader 5 - FTMO 3\uninstall.exe
+[2025-11-24 19:43:24] Lancio uninstall manuale: C:\Program Files\MetaTrader 5 - FundedNext 2\uninstall.exe
+[2025-11-24 19:44:18] Lancio uninstall manuale: C:\Program Files\MetaTrader 5 - HEDGE\uninstall.exe
+[2025-11-24 19:44:33] Procedura uninstall manuale MT5 completata.
+[2025-11-24 19:44:49] Avvio: Disinstallazione batch interattiva MT5
+[2025-11-24 19:44:51] Avvio scansione disinstallatori MT5...
+[2025-11-24 19:45:20] Trovati 5 uninstallers potenziali.
+[2025-11-24 19:45:20] Candidato uninstall #1: C:\Program Files\MetaTrader 5\uninstall.exe Dimensione:22838280
+[2025-11-24 19:45:20] Candidato uninstall #2: C:\Program Files\MetaTrader 5 - FTMO 1\uninstall.exe Dimensione:22838280
+[2025-11-24 19:45:20] Candidato uninstall #3: C:\Program Files\MetaTrader 5 - FTMO 3\uninstall.exe Dimensione:22838280
+[2025-11-24 19:45:20] Candidato uninstall #4: C:\Program Files\MetaTrader 5 - FundedNext 2\uninstall.exe Dimensione:22838280
+[2025-11-24 19:45:20] Candidato uninstall #5: C:\Program Files\MetaTrader 5 - HEDGE\uninstall.exe Dimensione:22838280
+[2025-11-24 19:46:00] Lancio uninstall manuale: C:\Program Files\MetaTrader 5\uninstall.exe
+[2025-11-24 19:46:19] Cartella rimossa dopo uninstall: C:\Program Files\MetaTrader 5
+[2025-11-24 19:46:20] Lancio uninstall manuale: C:\Program Files\MetaTrader 5 - FTMO 1\uninstall.exe
+[2025-11-24 19:47:23] Cartella rimossa dopo uninstall: C:\Program Files\MetaTrader 5 - FTMO 1
+[2025-11-24 19:47:39] Lancio uninstall manuale: C:\Program Files\MetaTrader 5 - FTMO 3\uninstall.exe
+[2025-11-24 19:47:58] Cartella rimossa dopo uninstall: C:\Program Files\MetaTrader 5 - FTMO 3
+[2025-11-24 19:48:02] Lancio uninstall manuale: C:\Program Files\MetaTrader 5 - FundedNext 2\uninstall.exe
+[2025-11-24 19:50:27] Cartella rimossa dopo uninstall: C:\Program Files\MetaTrader 5 - FundedNext 2
+[2025-11-24 19:50:28] Lancio uninstall manuale: C:\Program Files\MetaTrader 5 - HEDGE\uninstall.exe
+[2025-11-24 19:50:46] Cartella rimossa dopo uninstall: C:\Program Files\MetaTrader 5 - HEDGE
+[2025-11-24 19:50:46] Procedura uninstall manuale MT5 completata.
+[2025-11-24 19:51:02] Avvio: Disinstallazione batch interattiva MT5
+[2025-11-24 19:51:04] Avvio scansione disinstallatori MT5...
+[2025-11-24 19:51:28] Trovati 5 uninstallers potenziali.
+[2025-11-24 19:51:28] Candidato uninstall #1: C:\Program Files\MetaTrader 5\uninstall.exe Dimensione:22838280
+[2025-11-24 19:51:28] Candidato uninstall #2: C:\Program Files\MetaTrader 5 - FTMO 1\uninstall.exe Dimensione:22838280
+[2025-11-24 19:51:28] Candidato uninstall #3: C:\Program Files\MetaTrader 5 - FTMO 3\uninstall.exe Dimensione:22838280
+[2025-11-24 19:51:29] Candidato uninstall #4: C:\Program Files\MetaTrader 5 - FundedNext 2\uninstall.exe Dimensione:22838280
+[2025-11-24 19:51:29] Candidato uninstall #5: C:\Program Files\MetaTrader 5 - HEDGE\uninstall.exe Dimensione:22838280
+[2025-11-24 19:51:32] Lancio uninstall manuale: C:\Program Files\MetaTrader 5\uninstall.exe
+[2025-11-24 19:51:50] ERR: Cartella NON rimossa: C:\Program Files\MetaTrader 5
+[2025-11-24 19:54:03] Avvio: Installazione multipla MT5
+[2025-11-24 19:54:04] ERRORE CRITICO: Impossibile associare l'argomento al parametro 'Path' perché è null.
+[2025-11-24 19:59:33] Avvio: Installazione multipla MT5
+[2025-11-24 19:59:33] Inizio installazione multipla MT5.
+[2025-11-24 19:59:33] ERRORE: path non trovato: C:\MetaTrader
+[2025-11-24 19:59:33] Installazione multipla MT5 completata.
+[2025-11-24 20:02:06] Avvio: Installazione multipla MT5
+[2025-11-24 20:02:06] Inizio installazione multipla MT5.
+[2025-11-24 20:02:06] Creata nuova directory baseInstallPath: C:\MetaTrader
+[2025-11-24 20:02:06] INSTALL: instanceLabel=HEDGE setupExe=C:\Users\pc\Downloads\arbitex-12112025\Programs\4_mt5setup.exe customPath=C:\MetaTrader\MetaTrader 5 - HEDGE configSrc=C:\Users\pc\Downloads\arbitex-12112025\standard_config_edge iconPath=C:\Users\pc\Downloads\arbitex-12112025\Icons\HEDGE.ico terminalRoot=C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal
+[2025-11-24 20:03:50] ERRORE CRITICO: Specificato metodo non supportato.
+[2025-11-27 10:44:03] === AVVIO ARBITEX VPS Installation Wizard ===
+[2025-11-27 10:44:04] Modulo caricato: arbitex_installer.ps1
+[2025-11-27 10:44:04] Modulo caricato: arbitex_update_ea.ps1
+[2025-11-27 10:44:04] Modulo caricato: arbitex_update_config.ps1
+[2025-11-27 10:44:04] Modulo caricato: arbitex_cleanup.ps1
+[2025-11-27 10:44:04] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
+[2025-11-27 10:47:00] Avvio: Aggiornamento EA nelle cartelle config
+[2025-11-27 10:47:00] Scarico ZIP EA per aggiornare cartelle config standard (https://storage.arbitexcorp.com/U0y23wTqtbby.zip)
+[2025-11-27 10:47:31] ERRORE download EA zip: Gateway Timeout
+[2025-11-27 10:47:31] Completato: Aggiornamento EA nelle cartelle config
+[2025-11-27 10:49:14] Avvio: Aggiornamento EA in tutte le installazioni MT5
+[2025-11-27 10:49:45] Completato: Aggiornamento EA in tutte le installazioni MT5
+[2025-11-27 10:51:19] === AVVIO ARBITEX VPS Installation Wizard ===
+[2025-11-27 10:51:19] Modulo caricato: arbitex_installer.ps1
+[2025-11-27 10:51:19] Modulo caricato: arbitex_update_ea.ps1
+[2025-11-27 10:51:19] Modulo caricato: arbitex_update_config.ps1
+[2025-11-27 10:51:19] Modulo caricato: arbitex_cleanup.ps1
+[2025-11-27 10:51:19] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
+[2025-11-27 10:51:23] Avvio: Installazione multipla MT5
+[2025-11-27 10:51:23] Inizio installazione multipla MT5.
+[2025-11-27 10:51:24] HEDGE gia esiste, skip.
+[2025-11-27 10:51:24] INSTALL: FTMO 1 | config=C:\Users\pc\Downloads\arbitex-12112025\standard_config_prop | icon=C:\Users\pc\Downloads\arbitex-12112025\Icons\FTMO.ico
+[2025-11-27 10:51:39] Installer FTMO 1 terminato.
+[2025-11-27 10:51:46] Config copiata per FTMO 1
+[2025-11-27 10:51:46] FTMO 1 OK: icona copiata
+[2025-11-27 10:51:47] INSTALL: The5ers 1 | config=C:\Users\pc\Downloads\arbitex-12112025\standard_config_prop | icon=C:\Users\pc\Downloads\arbitex-12112025\Icons\5erslogo.ico
+[2025-11-27 10:52:02] Installer The5ers 1 terminato.
+[2025-11-27 10:54:31] === AVVIO ARBITEX VPS Installation Wizard ===
+[2025-11-27 10:54:31] ERRORE caricamento modulo arbitex_installer.ps1 : In C:\Users\pc\Downloads\arbitex-12112025\arbitex_installer.ps1:98 car:34
++                 Write-Host "[OK] $prop: $count istanze" -ForegroundCo ...
++                                  ~~~~~~
+Riferimento a variabile non valido. ':' non è seguito da un carattere del nome di variabile valido. Provare a utilizzare ${} per delimitare il nome.
+[2025-11-27 10:54:31] Modulo caricato: arbitex_update_ea.ps1
+[2025-11-27 10:54:31] Modulo caricato: arbitex_update_config.ps1
+[2025-11-27 10:54:31] Modulo caricato: arbitex_cleanup.ps1
+[2025-11-27 10:54:31] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
+[2025-11-27 10:54:35] Avvio: Installazione multipla MT5
+[2025-11-27 10:54:35] ERRORE in Installazione multipla MT5 : Termine 'Invoke-ArbitexInstaller' non riconosciuto come nome di cmdlet, funzione, programma eseguibile o file script. Controllare l'ortografia del nome o verificare che il percorso sia incluso e corretto, quindi riprovare.
+[2025-11-27 10:56:53] === AVVIO ARBITEX VPS Installation Wizard ===
+[2025-11-27 10:56:53] Modulo caricato: arbitex_installer.ps1
+[2025-11-27 10:56:53] Modulo caricato: arbitex_update_ea.ps1
+[2025-11-27 10:56:53] Modulo caricato: arbitex_update_config.ps1
+[2025-11-27 10:56:53] Modulo caricato: arbitex_cleanup.ps1
+[2025-11-27 10:56:53] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
+[2025-11-27 10:57:07] Avvio: Installazione multipla MT5
+[2025-11-27 10:57:07] Avvio wizard configurazione MT5.
+[2025-11-27 10:57:44] Prop selezionate: FTMO, The5ers, FunderPro, FundingPips
+[2025-11-27 10:57:55] Istanze selezionate
+[2025-11-27 10:57:59] Include HEDGE: True
+[2025-11-27 10:58:05] Inizio installazione multipla MT5.
+[2025-11-27 10:58:05] HEDGE gia esiste, skip.
+[2025-11-27 10:58:05] FTMO 1 gia esiste, skip.
+[2025-11-27 10:58:05] INSTALL: FTMO 2
+[2025-11-27 10:58:21] Installer FTMO 2 terminato.
+[2025-11-27 10:58:27] Config copiata per FTMO 2
+[2025-11-27 10:58:27] FTMO 2 OK
+[2025-11-27 10:58:28] The5ers 1 gia esiste, skip.
+[2025-11-27 10:58:28] INSTALL: FunderPro 1
+[2025-11-27 10:58:43] Installer FunderPro 1 terminato.
+[2025-11-27 10:58:49] Config copiata per FunderPro 1
+[2025-11-27 10:58:49] FunderPro 1 OK
+[2025-11-27 10:58:50] INSTALL: FundingPips 1
+[2025-11-27 10:59:05] Installer FundingPips 1 terminato.
+[2025-11-27 10:59:11] Config copiata per FundingPips 1
+[2025-11-27 10:59:11] FundingPips 1 OK
+[2025-11-27 10:59:12] Installazione multipla MT5 completata.
+[2025-11-27 10:59:12] Completato: Installazione multipla MT5
+[2025-11-27 11:01:29] Avvio: Installazione multipla MT5
+[2025-11-27 11:01:29] Avvio wizard configurazione MT5.
+[2025-11-27 11:01:39] Prop selezionate: FTMO, The5ers, FunderPro, FundingPips
+[2025-11-27 11:01:50] Istanze selezionate
+[2025-11-27 11:01:58] Include HEDGE: True
+[2025-11-27 11:02:00] Installazione annullata dall'utente.
+[2025-11-27 11:02:00] Completato: Installazione multipla MT5
+[2025-11-27 11:02:11] Avvio: Installazione multipla MT5
+[2025-11-27 11:02:11] Avvio wizard configurazione MT5.
+[2025-11-27 11:02:18] Prop selezionate: FTMO, The5ers, FunderPro, FundingPips
+[2025-11-27 11:02:30] Istanze selezionate
+[2025-11-27 11:02:33] Include HEDGE: True
+[2025-11-27 11:02:37] Inizio installazione multipla MT5.
+[2025-11-27 11:02:37] HEDGE gia esiste, skip.
+[2025-11-27 11:02:37] FTMO 1 gia esiste, skip.
+[2025-11-27 11:02:37] FTMO 2 gia esiste, skip.
+[2025-11-27 11:02:37] The5ers 1 gia esiste, skip.
+[2025-11-27 11:02:37] INSTALL: The5ers 2
+[2025-11-27 11:02:52] Installer The5ers 2 terminato.
+[2025-11-27 11:02:59] Config copiata per The5ers 2
+[2025-11-27 11:02:59] The5ers 2 OK
+[2025-11-27 11:03:04] FunderPro 1 gia esiste, skip.
+[2025-11-27 11:03:04] FundingPips 1 gia esiste, skip.
+[2025-11-27 11:03:04] Installazione multipla MT5 completata.
+[2025-11-27 11:03:04] Completato: Installazione multipla MT5
+[2025-11-27 11:07:27] === AVVIO ARBITEX VPS Installation Wizard ===
+[2025-11-27 11:07:27] Modulo caricato: arbitex_installer.ps1
+[2025-11-27 11:07:27] Modulo caricato: arbitex_update_ea.ps1
+[2025-11-27 11:07:27] Modulo caricato: arbitex_update_config.ps1
+[2025-11-27 11:07:27] Modulo caricato: arbitex_cleanup.ps1
+[2025-11-27 11:07:27] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
+[2025-11-27 11:07:40] Avvio: Installazione multipla MT5
+[2025-11-27 11:07:40] Avvio wizard configurazione MT5.
+[2025-11-27 11:07:47] Prop selezionate: FTMO, The5ers, FunderPro, FundingPips
+[2025-11-27 11:08:16] Istanze selezionate
+[2025-11-27 11:08:19] Include HEDGE: True
+[2025-11-27 11:08:26] Desktop shortcuts: SI
+[2025-11-27 11:08:26] Inizio installazione multipla MT5.
+[2025-11-27 11:08:26] INSTALL: HEDGE
+[2025-11-27 11:08:43] Installer HEDGE terminato.
+[2025-11-27 11:08:48] ERRORE: Nessuna cartella profilo creata per HEDGE
+[2025-11-27 11:08:49] INSTALL: FTMO 3
+[2025-11-27 11:09:04] Installer FTMO 3 terminato.
+[2025-11-27 11:09:10] Config copiata per FTMO 3
+[2025-11-27 11:09:10] FTMO 3 OK
+[2025-11-27 11:09:10] Shortcut desktop creato: C:\Users\pc\Desktop\FTMO 3.lnk
+[2025-11-27 11:09:11] INSTALL: The5ers 3
+[2025-11-27 11:09:26] Installer The5ers 3 terminato.
+[2025-11-27 11:09:33] Config copiata per The5ers 3
+[2025-11-27 11:09:33] The5ers 3 OK
+[2025-11-27 11:09:33] Shortcut desktop creato: C:\Users\pc\Desktop\The5ers 3.lnk
+[2025-11-27 11:09:34] INSTALL: FundingPips 2
+[2025-11-27 11:09:49] Installer FundingPips 2 terminato.
+[2025-11-27 11:09:55] Config copiata per FundingPips 2
+[2025-11-27 11:09:55] FundingPips 2 OK
+[2025-11-27 11:09:55] Shortcut desktop creato: C:\Users\pc\Desktop\FundingPips 2.lnk
+[2025-11-27 11:09:56] INSTALL: FundingPips 3
+[2025-11-27 11:10:11] Installer FundingPips 3 terminato.
+[2025-11-27 11:10:17] Config copiata per FundingPips 3
+[2025-11-27 11:10:17] FundingPips 3 OK
+[2025-11-27 11:10:17] Shortcut desktop creato: C:\Users\pc\Desktop\FundingPips 3.lnk
+[2025-11-27 11:10:18] Installazione multipla MT5 completata.
+[2025-11-27 11:10:18] Completato: Installazione multipla MT5
+[2025-11-27 11:18:01] === AVVIO ARBITEX VPS Installation Wizard ===
+[2025-11-27 11:18:01] Modulo caricato: arbitex_installer.ps1
+[2025-11-27 11:18:01] Modulo caricato: arbitex_update_ea.ps1
+[2025-11-27 11:18:01] Modulo caricato: arbitex_update_config.ps1
+[2025-11-27 11:18:02] Modulo caricato: arbitex_cleanup.ps1
+[2025-11-27 11:18:02] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
+[2025-11-27 11:18:08] Avvio: Pulizia interattiva MT5
+[2025-11-27 11:18:08] === AVVIO PULIZIA MT5 ===
+[2025-11-27 11:18:37] Terminazione processi MT5...
+[2025-11-27 11:18:37] Processo terminato: terminal
+[2025-11-27 11:18:37] Processo terminato: terminal64
+[2025-11-27 11:18:37] Processo terminato: metaeditor
+[2025-11-27 11:18:37] Processo terminato: metaeditor64
+[2025-11-27 11:18:39] Rimossa: MetaTrader 5 - FTMO 1
+[2025-11-27 11:18:39] Rimossa: MetaTrader 5 - FTMO 2
+[2025-11-27 11:18:39] Rimossa: MetaTrader 5 - FTMO 3
+[2025-11-27 11:18:40] Rimossa: MetaTrader 5 - FunderPro 1
+[2025-11-27 11:18:40] Rimossa: MetaTrader 5 - FundingPips 1
+[2025-11-27 11:18:40] Rimossa: MetaTrader 5 - FundingPips 2
+[2025-11-27 11:18:41] Rimossa: MetaTrader 5 - FundingPips 3
+[2025-11-27 11:18:41] Rimossa: MetaTrader 5 - HEDGE
+[2025-11-27 11:18:41] Rimossa: MetaTrader 5 - The5ers 1
+[2025-11-27 11:18:41] Rimossa: MetaTrader 5 - The5ers 2
+[2025-11-27 11:18:42] Rimossa: MetaTrader 5 - The5ers 3
+[2025-11-27 11:18:42] Pulizia MT5 completata. Successi: 11, Errori: 0
+[2025-11-27 11:18:47] Completato: Pulizia interattiva MT5
+[2025-11-27 11:27:25] === AVVIO ARBITEX VPS Installation Wizard ===
+[2025-11-27 11:27:25] Modulo caricato: arbitex_installer.ps1
+[2025-11-27 11:27:25] Modulo caricato: arbitex_update_ea.ps1
+[2025-11-27 11:27:25] Modulo caricato: arbitex_update_config.ps1
+[2025-11-27 11:27:25] Modulo caricato: arbitex_cleanup.ps1
+[2025-11-27 11:27:25] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
+[2025-11-27 11:27:32] Avvio: Pulizia interattiva MT5
+[2025-11-27 11:27:32] === AVVIO PULIZIA MT5 ===
+[2025-11-27 11:27:37] Nessuna istanza trovata.
+[2025-11-27 11:27:37] Completato: Pulizia interattiva MT5
+[2025-11-27 11:27:50] Avvio: Installazione multipla MT5
+[2025-11-27 11:27:50] Avvio wizard configurazione MT5.
+[2025-11-27 11:27:54] Prop selezionate: FTMO
+[2025-11-27 11:27:56] Istanze selezionate
+[2025-11-27 11:27:59] Include HEDGE: False
+[2025-11-27 11:27:59] ERRORE in Installazione multipla MT5 : Impossibile elaborare la trasformazione degli argomenti nel parametro 'includeAppData'. Impossibile convertire il valore "System.Collections.Hashtable" nel tipo "System.Boolean". I parametri booleani accettano solo valori booleani e numeri, come $True, $False, 1 o 0.
+[2025-11-27 11:28:09] Avvio: Installazione multipla MT5
+[2025-11-27 11:28:09] Avvio wizard configurazione MT5.
+[2025-11-27 11:28:14] Prop selezionate: FTMO
+[2025-11-27 11:28:15] Istanze selezionate
+[2025-11-27 11:28:19] Include HEDGE: True
+[2025-11-27 11:28:19] ERRORE in Installazione multipla MT5 : Impossibile elaborare la trasformazione degli argomenti nel parametro 'includeAppData'. Impossibile convertire il valore "System.Collections.Hashtable" nel tipo "System.Boolean". I parametri booleani accettano solo valori booleani e numeri, come $True, $False, 1 o 0.
+[2025-11-27 11:28:25] Avvio: Installazione multipla MT5
+[2025-11-27 11:28:25] Avvio wizard configurazione MT5.
+[2025-11-27 11:28:32] Prop selezionate: FTMO, The5ers, FunderPro
+[2025-11-27 11:28:36] Istanze selezionate
+[2025-11-27 11:28:38] Include HEDGE: True
+[2025-11-27 11:28:38] ERRORE in Installazione multipla MT5 : Impossibile elaborare la trasformazione degli argomenti nel parametro 'includeAppData'. Impossibile convertire il valore "System.Collections.Hashtable" nel tipo "System.Boolean". I parametri booleani accettano solo valori booleani e numeri, come $True, $False, 1 o 0.
+[2025-11-27 11:30:51] === AVVIO ARBITEX VPS Installation Wizard ===
+[2025-11-27 11:30:51] Modulo caricato: arbitex_installer.ps1
+[2025-11-27 11:30:51] Modulo caricato: arbitex_update_ea.ps1
+[2025-11-27 11:30:51] Modulo caricato: arbitex_update_config.ps1
+[2025-11-27 11:30:51] Modulo caricato: arbitex_cleanup.ps1
+[2025-11-27 11:30:51] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
+[2025-11-27 11:30:54] Avvio: Installazione multipla MT5
+[2025-11-27 11:30:54] Avvio wizard configurazione MT5.
+[2025-11-27 11:30:59] Prop selezionate: FTMO, The5ers
+[2025-11-27 11:31:01] Istanze selezionate
+[2025-11-27 11:31:05] Include HEDGE: False
+[2025-11-27 11:31:05] ERRORE in Installazione multipla MT5 : Impossibile elaborare la trasformazione degli argomenti nel parametro 'includeAppData'. Impossibile convertire il valore "System.Collections.Hashtable" nel tipo "System.Boolean". I parametri booleani accettano solo valori booleani e numeri, come $True, $False, 1 o 0.
+[2025-11-27 11:32:55] === AVVIO ARBITEX VPS Installation Wizard ===
+[2025-11-27 11:32:55] Modulo caricato: arbitex_installer.ps1
+[2025-11-27 11:32:55] Modulo caricato: arbitex_update_ea.ps1
+[2025-11-27 11:32:55] Modulo caricato: arbitex_update_config.ps1
+[2025-11-27 11:32:55] Modulo caricato: arbitex_cleanup.ps1
+[2025-11-27 11:32:55] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
+[2025-11-27 11:32:59] Avvio: Installazione multipla MT5
+[2025-11-27 11:32:59] Avvio wizard configurazione MT5.
+[2025-11-27 11:33:02] Prop selezionate: FTMO, The5ers
+[2025-11-27 11:33:04] Istanze selezionate
+[2025-11-27 11:33:07] Include HEDGE: True
+[2025-11-27 11:33:16] Desktop shortcuts: SI
+[2025-11-27 11:33:16] Inizio installazione multipla MT5.
+[2025-11-27 11:33:16] Creata directory: C:\MetaTrader
+[2025-11-27 11:33:16] INSTALL: HEDGE
+[2025-11-27 11:33:32] Installer HEDGE terminato.
+[2025-11-27 11:33:37] ERRORE: Nessuna cartella profilo creata per HEDGE
+[2025-11-27 11:33:38] INSTALL: FTMO 1
+[2025-11-27 11:33:57] Installer FTMO 1 terminato.
+[2025-11-27 11:34:02] ERRORE: Nessuna cartella profilo creata per FTMO 1
+[2025-11-27 11:34:26] INSTALL: The5ers 1
+[2025-11-27 11:34:43] Installer The5ers 1 terminato.
+[2025-11-27 11:34:48] ERRORE: Nessuna cartella profilo creata per The5ers 1
+[2025-11-27 11:35:06] Installazione multipla MT5 completata.
+[2025-11-27 11:35:06] Completato: Installazione multipla MT5
+[2025-11-27 11:35:35] Avvio: Pulizia interattiva MT5
+[2025-11-27 11:35:35] === AVVIO PULIZIA MT5 ===
+[2025-11-27 11:36:02] Terminazione processi MT5...
+[2025-11-27 11:36:02] Processo terminato: terminal
+[2025-11-27 11:36:02] Processo terminato: terminal64
+[2025-11-27 11:36:02] Processo terminato: metaeditor
+[2025-11-27 11:36:02] Processo terminato: metaeditor64
+[2025-11-27 11:36:04] Rimossa: MetaTrader 5 - FTMO 1
+[2025-11-27 11:36:05] Rimossa: MetaTrader 5 - HEDGE
+[2025-11-27 11:36:05] Rimossa: MetaTrader 5 - The5ers 1
+[2025-11-27 11:36:06] Rimosso profilo: 2B8F74B8667C4C8BFBF9506CEB7CC14B
+[2025-11-27 11:36:08] Rimosso profilo: 4963406DE264C1E411B1B80FE4A2ADA6
+[2025-11-27 11:36:08] Rimosso profilo: 568D6B71B5DF32AAE345E381FBC6CB34
+[2025-11-27 11:36:09] Rimosso profilo: 6564EF2CC4453A736CF8CC5C9A683743
+[2025-11-27 11:36:09] Rimosso profilo: 80B2CF184C25AF48E08B636B56EBE56B
+[2025-11-27 11:36:10] Rimosso profilo: A368CB2DEEC5A41768BB8020588B33B0
+[2025-11-27 11:36:10] Rimosso profilo: Common
+[2025-11-27 11:36:10] Rimosso profilo: Community
+[2025-11-27 11:36:10] Rimosso profilo: DDD8AFAF0340F45CE01C531C8C20F6D1
+[2025-11-27 11:36:10] Rimosso profilo: E073E5B3F305FE26A331EDB689BE292D
+[2025-11-27 11:36:11] Rimosso profilo: F670ECA22D893A7F055D7791395CE86E
+[2025-11-27 11:36:13] Rimosso profilo: F773FB9C314DA8F396F1624FD5229E5A
+[2025-11-27 11:36:13] Rimosso profilo: FDFD1BEA56F7F1C9F028154ED82184C2
+[2025-11-27 11:36:13] Pulizia MT5 completata. Successi: 16, Errori: 0
+[2025-11-27 11:36:16] Completato: Pulizia interattiva MT5
+[2025-11-27 11:36:21] Avvio: Installazione multipla MT5
+[2025-11-27 11:36:21] Avvio wizard configurazione MT5.
+[2025-11-27 11:36:27] Prop selezionate: FTMO, The5ers, FunderPro, FundingPips
+[2025-11-27 11:36:31] Istanze selezionate
+[2025-11-27 11:36:34] Include HEDGE: True
+[2025-11-27 12:52:45] === AVVIO ARBITEX VPS Installation Wizard ===
+[2025-11-27 12:52:45] Modulo caricato: arbitex_installer.ps1
+[2025-11-27 12:52:45] Modulo caricato: arbitex_update_ea.ps1
+[2025-11-27 12:52:45] Modulo caricato: arbitex_update_config.ps1
+[2025-11-27 12:52:45] Modulo caricato: arbitex_cleanup.ps1
+[2025-11-27 12:52:45] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
+[2025-11-27 12:52:48] Avvio: Pulizia interattiva MT5
+[2025-11-27 12:52:48] === AVVIO PULIZIA MT5 ===
+[2025-11-27 12:52:55] Nessuna istanza trovata.
+[2025-11-27 12:52:55] Completato: Pulizia interattiva MT5
+[2025-11-27 12:53:00] Avvio: Installazione multipla MT5
+[2025-11-27 12:53:00] Avvio wizard configurazione MT5.
+[2025-11-27 12:53:03] Prop selezionate: FTMO
+[2025-11-27 12:53:04] Istanze selezionate
+[2025-11-27 12:53:07] Include HEDGE: True
+[2025-11-27 12:53:12] Desktop shortcuts: SI
+[2025-11-27 12:53:12] Inizio installazione multipla MT5.
+[2025-11-27 12:53:12] INSTALL: HEDGE
+[2025-11-27 12:53:34] Installer HEDGE terminato.
+[2025-11-27 12:53:39] ERRORE copia config: Impossibile convertire 'System.Object[]' nel tipo 'System.String' richiesto da parametro 'Destination'. Specificato metodo non supportato.
+[2025-11-27 12:53:39] ERRORE copia icona: Impossibile convertire 'System.Object[]' nel tipo 'System.String' richiesto da parametro 'Destination'. Specificato metodo non supportato.
+[2025-11-27 12:53:39] ERRORE: terminal.exe non trovato in C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\Common C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\Community C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\FDFD1BEA56F7F1C9F028154ED82184C2
+[2025-11-27 12:53:40] INSTALL: FTMO 1
+[2025-11-27 12:53:55] Installer FTMO 1 terminato.
+[2025-11-27 12:54:02] Config copiata per FTMO 1
+[2025-11-27 12:54:02] FTMO 1 OK
+[2025-11-27 12:54:02] Shortcut desktop creato: C:\Users\pc\Desktop\FTMO 1.lnk
+[2025-11-27 12:54:03] Installazione multipla MT5 completata.
+[2025-11-27 12:54:03] Completato: Installazione multipla MT5
+[2025-11-27 12:56:09] === AVVIO ARBITEX VPS Installation Wizard ===
+[2025-11-27 12:56:09] Modulo caricato: arbitex_installer.ps1
+[2025-11-27 12:56:09] Modulo caricato: arbitex_update_ea.ps1
+[2025-11-27 12:56:09] Modulo caricato: arbitex_update_config.ps1
+[2025-11-27 12:56:09] Modulo caricato: arbitex_cleanup.ps1
+[2025-11-27 12:56:09] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
+[2025-11-27 12:56:16] Avvio: Installazione multipla MT5
+[2025-11-27 12:56:16] Avvio wizard configurazione MT5.
+[2025-11-27 12:56:21] Prop selezionate: FTMO
+[2025-11-27 12:56:25] Istanze selezionate
+[2025-11-27 12:56:29] Include HEDGE: True
+[2025-11-27 12:56:41] Desktop shortcuts: SI
+[2025-11-27 12:56:41] Inizio installazione multipla MT5.
+[2025-11-27 12:56:41] INSTALL: HEDGE
+[2025-11-27 12:56:56] Installer HEDGE terminato.
+[2025-11-27 12:57:01] ERRORE: Nessuna cartella profilo creata per HEDGE
+[2025-11-27 12:57:02] INSTALL: FTMO 2
+[2025-11-27 12:57:17] Installer FTMO 2 terminato.
+[2025-11-27 12:57:24] Config copiata per FTMO 2
+[2025-11-27 12:57:24] FTMO 2 OK
+[2025-11-27 12:57:24] Shortcut desktop creato: C:\Users\pc\Desktop\FTMO 2.lnk
+[2025-11-27 12:57:25] Installazione multipla MT5 completata.
+[2025-11-27 12:57:25] Completato: Installazione multipla MT5
+[2025-11-27 13:04:32] === AVVIO ARBITEX VPS Installation Wizard ===
+[2025-11-27 13:04:32] Modulo caricato: arbitex_installer.ps1
+[2025-11-27 13:04:32] Modulo caricato: arbitex_update_ea.ps1
+[2025-11-27 13:04:32] Modulo caricato: arbitex_update_config.ps1
+[2025-11-27 13:04:32] Modulo caricato: arbitex_cleanup.ps1
+[2025-11-27 13:04:32] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
+[2025-11-27 13:04:36] Avvio: Installazione multipla MT5
+[2025-11-27 13:04:36] Avvio wizard configurazione MT5.
+[2025-11-27 13:04:39] Prop selezionate: FTMO
+[2025-11-27 13:04:47] Istanze selezionate
+[2025-11-27 13:04:52] Include HEDGE: True
+[2025-11-27 13:04:57] Desktop shortcuts: SI
+[2025-11-27 13:04:57] Inizio installazione multipla MT5.
+[2025-11-27 13:05:03] HEDGE gia esiste, installa come: HEDGE 2
+[2025-11-27 13:05:03] INSTALL: HEDGE 2
+[2025-11-27 13:05:20] Installer HEDGE 2 terminato.
+[2025-11-27 13:05:25] Config copiata per HEDGE 2
+[2025-11-27 13:05:25] HEDGE 2 OK
+[2025-11-27 13:05:25] Shortcut desktop creato: C:\Users\pc\Desktop\HEDGE 2.lnk
+[2025-11-27 13:05:26] INSTALL: FTMO 3
+[2025-11-27 13:05:42] Installer FTMO 3 terminato.
+[2025-11-27 13:05:48] Config copiata per FTMO 3
+[2025-11-27 13:05:48] FTMO 3 OK
+[2025-11-27 13:05:48] Shortcut desktop creato: C:\Users\pc\Desktop\FTMO 3.lnk
+[2025-11-27 13:05:49] Installazione multipla MT5 completata.
+[2025-11-27 13:05:49] Completato: Installazione multipla MT5
+[2025-11-27 14:16:22] === AVVIO ARBITEX VPS Installation Wizard ===
+[2025-11-27 14:16:22] Modulo caricato: arbitex_installer.ps1
+[2025-11-27 14:16:22] Modulo caricato: arbitex_update_ea.ps1
+[2025-11-27 14:16:22] Modulo caricato: arbitex_update_config.ps1
+[2025-11-27 14:16:22] Modulo caricato: arbitex_cleanup.ps1
+[2025-11-27 14:16:22] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
+[2025-11-27 14:16:27] Avvio: Installazione multipla MT5
+[2025-11-27 14:16:27] Avvio wizard configurazione MT5.
+[2025-11-27 14:16:30] Prop selezionate: FTMO
+[2025-11-27 14:16:36] Istanze selezionate
+[2025-11-27 14:16:42] Include HEDGE: False
+[2025-11-27 14:16:49] Desktop shortcuts: SI
+[2025-11-27 14:16:49] Inizio installazione multipla MT5.
+[2025-11-27 14:16:49] INSTALL: FTMO 4
+[2025-11-27 14:17:04] Installer FTMO 4 terminato.
+[2025-11-27 14:17:11] Config copiata per FTMO 4
+[2025-11-27 14:17:11] FTMO 4 OK
+[2025-11-27 14:17:11] Shortcut desktop creato: C:\Users\pc\Desktop\FTMO 4.lnk
+[2025-11-27 14:17:12] Installazione multipla MT5 completata.
+[2025-11-27 14:17:12] Completato: Installazione multipla MT5
+[2025-11-27 14:17:16] Avvio: Installazione multipla MT5
+[2025-11-27 14:17:16] Avvio wizard configurazione MT5.
+[2025-11-27 14:17:18] Prop selezionate: FTMO
+[2025-11-27 14:17:22] Istanze selezionate
+[2025-11-27 14:17:24] Include HEDGE: True
+[2025-11-27 14:17:29] Desktop shortcuts: SI
+[2025-11-27 14:17:29] Inizio installazione multipla MT5.
+[2025-11-27 14:17:40] Installa come: HEDGE 2
+[2025-11-27 14:17:40] INSTALL: HEDGE 2
+[2025-11-27 14:17:55] Installer HEDGE 2 terminato.
+[2025-11-27 14:18:00] ERRORE: Nessuna cartella profilo creata per HEDGE 2
+[2025-11-27 14:18:01] INSTALL: FTMO 5
+[2025-11-27 14:18:16] Installer FTMO 5 terminato.
+[2025-11-27 14:18:23] Config copiata per FTMO 5
+[2025-11-27 14:18:23] FTMO 5 OK
+[2025-11-27 14:18:23] Shortcut desktop creato: C:\Users\pc\Desktop\FTMO 5.lnk
+[2025-11-27 14:18:24] Installazione multipla MT5 completata.
+[2025-11-27 14:18:24] Completato: Installazione multipla MT5
+[2025-11-27 14:28:40] === AVVIO ARBITEX VPS Installation Wizard ===
+[2025-11-27 14:28:40] Modulo caricato: arbitex_installer.ps1
+[2025-11-27 14:28:40] Modulo caricato: arbitex_update_ea.ps1
+[2025-11-27 14:28:40] Modulo caricato: arbitex_update_config.ps1
+[2025-11-27 14:28:40] Modulo caricato: arbitex_cleanup.ps1
+[2025-11-27 14:28:40] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
+[2025-11-27 14:28:44] Avvio: Installazione multipla MT5
+[2025-11-27 14:28:44] Avvio wizard configurazione MT5.
+[2025-11-27 14:28:53] Prop selezionate: FTMO
+[2025-11-27 14:28:57] Istanze selezionate
+[2025-11-27 14:28:59] Include HEDGE: True
+[2025-11-27 14:29:03] Desktop shortcuts: SI
+[2025-11-27 14:29:03] Inizio installazione multipla MT5.
+[2025-11-27 14:29:03] Skip HEDGE
+[2025-11-27 14:29:04] INSTALL: FTMO 6
+[2025-11-27 14:29:27] === AVVIO ARBITEX VPS Installation Wizard ===
+[2025-11-27 14:29:27] Modulo caricato: arbitex_installer.ps1
+[2025-11-27 14:29:27] Modulo caricato: arbitex_update_ea.ps1
+[2025-11-27 14:29:27] Modulo caricato: arbitex_update_config.ps1
+[2025-11-27 14:29:27] Modulo caricato: arbitex_cleanup.ps1
+[2025-11-27 14:29:27] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
+[2025-11-27 14:29:31] Avvio: Installazione multipla MT5
+[2025-11-27 14:29:31] Avvio wizard configurazione MT5.
+[2025-11-27 14:29:33] Prop selezionate: FTMO
+[2025-11-27 14:29:36] Istanze selezionate
+[2025-11-27 14:29:39] Include HEDGE: True
+[2025-11-27 14:29:42] Desktop shortcuts: SI
+[2025-11-27 14:29:42] Inizio installazione multipla MT5.
+[2025-11-27 14:29:47] Installa come: HEDGE 2
+[2025-11-27 14:29:47] INSTALL: HEDGE 2
+[2025-11-27 14:30:03] Installer HEDGE 2 terminato.
+[2025-11-27 14:30:15] Nessuna cartella trovata dopo 8 tentativi
+[2025-11-27 14:30:15] ERRORE: Nessuna cartella profilo creata per HEDGE 2
+[2025-11-27 14:30:16] INSTALL: FTMO 7
+[2025-11-27 14:30:30] Installer FTMO 7 terminato.
+[2025-11-27 14:30:35] Cartella trovata al tentativo 1: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\8A0200F8EC57E061DD9E4A88E74FE092
+[2025-11-27 14:30:37] Config copiata per FTMO 7
+[2025-11-27 14:30:37] FTMO 7 OK
+[2025-11-27 14:30:37] Shortcut desktop creato: C:\Users\pc\Desktop\FTMO 7.lnk
+[2025-11-27 14:30:38] Installazione multipla MT5 completata.
+[2025-11-27 14:30:38] Completato: Installazione multipla MT5
+[2025-11-27 14:30:48] Avvio: Pulizia interattiva MT5
+[2025-11-27 14:30:48] === AVVIO PULIZIA MT5 ===
+[2025-11-27 14:31:09] Terminazione processi MT5...
+[2025-11-27 14:31:09] Processo terminato: terminal
+[2025-11-27 14:31:09] Processo terminato: terminal64
+[2025-11-27 14:31:09] Processo terminato: metaeditor
+[2025-11-27 14:31:09] Processo terminato: metaeditor64
+[2025-11-27 14:31:11] Rimossa: MetaTrader 5 - FTMO 1
+[2025-11-27 14:31:11] Rimossa: MetaTrader 5 - FTMO 2
+[2025-11-27 14:31:12] Rimossa: MetaTrader 5 - FTMO 3
+[2025-11-27 14:31:12] Rimossa: MetaTrader 5 - FTMO 4
+[2025-11-27 14:31:12] Rimossa: MetaTrader 5 - FTMO 5
+[2025-11-27 14:31:13] Rimossa: MetaTrader 5 - FTMO 6
+[2025-11-27 14:31:13] Rimossa: MetaTrader 5 - FTMO 7
+[2025-11-27 14:31:15] Rimossa: MetaTrader 5 - HEDGE
+[2025-11-27 14:31:15] Rimossa: MetaTrader 5 - HEDGE 2
+[2025-11-27 14:31:16] Rimosso profilo: 6564EF2CC4453A736CF8CC5C9A683743
+[2025-11-27 14:31:16] Rimosso profilo: 75F854E3A6E6CAB82785A5175943A05F
+[2025-11-27 14:31:17] Rimosso profilo: 8A0200F8EC57E061DD9E4A88E74FE092
+[2025-11-27 14:31:17] Rimosso profilo: A5452363D105F3482E71A9F34AAEA5DC
+[2025-11-27 14:31:17] Rimosso profilo: AC5CE9412A117B27E02136CAD2D51B76
+[2025-11-27 14:31:18] Rimosso profilo: B531F8DA1E767FB27A5D98980A731ED4
+[2025-11-27 14:31:18] Rimosso profilo: Common
+[2025-11-27 14:31:18] Rimosso profilo: Community
+[2025-11-27 14:31:23] Rimosso profilo: E073E5B3F305FE26A331EDB689BE292D
+[2025-11-27 14:31:25] Rimosso profilo: F773FB9C314DA8F396F1624FD5229E5A
+[2025-11-27 14:31:25] Rimosso profilo: FDFD1BEA56F7F1C9F028154ED82184C2
+[2025-11-27 14:31:25] Pulizia MT5 completata. Successi: 20, Errori: 0
+[2025-11-27 14:31:54] Completato: Pulizia interattiva MT5
+[2025-11-27 14:32:00] Uscita volontaria dal wizard.
+[2025-11-27 14:32:00] === FINE SESSIONE ARBITEX VPS ===
+[2025-11-27 14:32:12] === AVVIO ARBITEX VPS Installation Wizard ===
+[2025-11-27 14:32:12] Modulo caricato: arbitex_installer.ps1
+[2025-11-27 14:32:12] Modulo caricato: arbitex_update_ea.ps1
+[2025-11-27 14:32:12] Modulo caricato: arbitex_update_config.ps1
+[2025-11-27 14:32:12] Modulo caricato: arbitex_cleanup.ps1
+[2025-11-27 14:32:12] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
+[2025-11-27 14:34:22] Avvio: Pulizia interattiva MT5
+[2025-11-27 14:34:22] === AVVIO PULIZIA MT5 ===
+[2025-11-27 14:34:26] Nessuna istanza trovata.
+[2025-11-27 14:34:26] Completato: Pulizia interattiva MT5
