@@ -33,7 +33,8 @@ $modules = @(
     "arbitex_installer.ps1",
     "arbitex_update_ea.ps1", 
     "arbitex_update_config.ps1",
-    "arbitex_cleanup.ps1"
+    "arbitex_cleanup.ps1",
+    "arbitex_selfupdate.ps1"
 )
 
 foreach ($module in $modules) {
@@ -56,7 +57,23 @@ $edgeConfig       = "$PSScriptRoot\standard_config_edge"
 $propConfig       = "$PSScriptRoot\standard_config_prop"
 $iconSourcePath   = "$PSScriptRoot\Icons"
 $terminalRoot     = "$env:APPDATA\MetaQuotes\Terminal"
+
+# URL di fallback per il pacchetto EA (es. vecchio storage Arbitex)
 $urlEA            = 'https://storage.arbitexcorp.com/U0y23wTqtbby.zip'
+
+# Versione corrente del pacchetto EA atteso da questo installer
+$eaVersion = '1.0.0'
+
+# URL opzionale su GitHub per scaricare il pacchetto EA (se valorizzato viene usato al posto di $urlEA)
+# Esempio: 'https://raw.githubusercontent.com/BeaterGhalio/arbitex-installer-tools/main/releases/arbitex_ea_latest.zip'
+$eaGithubUrl = ''
+
+# URL GitHub per aggiornare l'installer stesso
+$installerGithubZipUrl = 'https://github.com/BeaterGhalio/arbitex-installer-tools/archive/refs/heads/main.zip'
+$installerGithubVersionUrl = 'https://raw.githubusercontent.com/BeaterGhalio/arbitex-installer-tools/main/installer_version.txt'
+
+# Auto-aggiornamento non interattivo dell'installer (se disponibile nuova versione)
+Invoke-ArbitexSelfUpdate -zipUrl $installerGithubZipUrl -versionUrl $installerGithubVersionUrl
 
 $requiredFolders = @($programsPath, $edgeConfig, $propConfig, $iconSourcePath)
 foreach ($folder in $requiredFolders) {

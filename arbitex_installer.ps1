@@ -1,5 +1,5 @@
 # =========================================
-# ARBITEX VPS - Installer (VERSIONE FINALE)
+# ARBITEX VPS - Installer (VERSIONE COMPLETA - FIXED v11 - RETRY LOCKED FILES)
 # =========================================
 
 Add-Type -AssemblyName System.Drawing
@@ -9,22 +9,52 @@ function Write-Log {
     Add-Content -Path "installation_log.txt" -Value ("[{0}] {1}" -f (Get-Date -Format "yyyy-MM-dd HH:mm:ss"), $msg) -ErrorAction SilentlyContinue
 }
 
+function Get-ExistingTerminalFolder($terminalRoot, $instanceLabel) {
+    if (-not (Test-Path $terminalRoot)) {
+        return $null
+    }
+
+    $profiles = Get-ChildItem -Path $terminalRoot -Directory -ErrorAction SilentlyContinue
+
+    if ($profiles.Count -gt 0) {
+        if ($profiles.Count -eq 1) {
+            Write-Log "Trovato profilo esistente (unico): $($profiles[0].FullName)"
+            return $profiles[0].FullName
+        }
+
+        $newest = $profiles | Sort-Object CreationTime -Descending | Select-Object -First 1
+        Write-Log "Trovato profilo più recente: $($newest.FullName)"
+        return $newest.FullName
+    }
+
+    return $null
+}
+
 function Get-NewTerminalFolder($foldersBefore, $terminalRoot) {
-    $maxRetries = 8
+    $maxRetries = 25
     $retryCount = 0
     $newFolder = $null
+
+    Write-Log "Ricerca cartella profilo HASH in: $terminalRoot"
+    Write-Log "Max retry: $maxRetries (attesa max ~50 secondi)"
 
     while ($retryCount -lt $maxRetries -and -not $newFolder) {
         $foldersAfter = @()
         if (Test-Path $terminalRoot) {
-            $foldersAfter = Get-ChildItem -Path $terminalRoot -Directory -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName }
+            $allFoldersAfter = Get-ChildItem -Path $terminalRoot -Directory -ErrorAction SilentlyContinue
+            $foldersAfter = $allFoldersAfter |
+                    Where-Object { $_.Name -match '^[0-9A-Fa-f]{32}$' } |
+                    ForEach-Object { $_.FullName }
+
+            Write-Log "Tentativo $( $retryCount + 1 ): trovate $( $allFoldersAfter.Count ) cartelle in $terminalRoot (HASH candidate: $( $foldersAfter.Count ))"
+        } else {
+            Write-Log "Tentativo $($retryCount + 1): $terminalRoot NON esiste ancora!"
         }
 
-        # Trova cartelle nuove
+        # Considera solo nuove cartelle HASH rispetto allo stato iniziale
         $newFolders = $foldersAfter | Where-Object { $foldersBefore -notcontains $_ }
 
         if ($newFolders) {
-            # Se ce ne sono più di una, prendi la più recente
             if ($newFolders -is [array]) {
                 $newest = $newFolders | Get-Item | Sort-Object CreationTime -Descending | Select-Object -First 1
                 $newFolder = $newest.FullName
@@ -32,34 +62,35 @@ function Get-NewTerminalFolder($foldersBefore, $terminalRoot) {
                 $newFolder = $newFolders
             }
 
-            Write-Log "Cartella trovata al tentativo $($retryCount + 1): $newFolder"
+            Write-Log "✅ CARTELLA TROVATA al tentativo $($retryCount + 1): $newFolder"
             return $newFolder
         }
 
         $retryCount++
         if ($retryCount -lt $maxRetries) {
-            Write-Host "Attesa creazione cartella... ($retryCount/$maxRetries)"
-            Start-Sleep -Seconds 1
+            $remainingRetries = $maxRetries - $retryCount
+            Write-Host "Attesa creazione cartella AppData/Terminal... ($retryCount/$maxRetries, rimangono $remainingRetries)" -ForegroundColor Gray
+            Start-Sleep -Seconds 2
         }
     }
 
-    Write-Log "Nessuna cartella trovata dopo $maxRetries tentativi"
+    Write-Log "❌ CARTELLA NON TROVATA dopo $maxRetries tentativi di attesa"
     return $null
 }
 
 function Show-PropSelectionMenu {
     param([array]$propList)
-    
+
     $selectedProps = @()
     $continue = $true
-    
+
     while ($continue) {
         Clear-Host
         Write-Host "=================================================="
         Write-Host "  SELEZIONE PROP FIRMS"
         Write-Host "=================================================="
         Write-Host ""
-        
+
         for ($i = 0; $i -lt $propList.Count; $i++) {
             $prop = $propList[$i]
             if ($selectedProps -contains $prop) {
@@ -68,14 +99,14 @@ function Show-PropSelectionMenu {
                 Write-Host "[ ] ($($i+1)) $prop"
             }
         }
-        
+
         Write-Host ""
         Write-Host "[0] Conferma selezione e continua"
         Write-Host "[c] Cancella tutto"
         Write-Host ""
-        
+
         $choice = (Read-Host "Seleziona prop [1-$($propList.Count)], [0] Conferma, [c] Cancella").Trim().ToLower()
-        
+
         if ($choice -eq "0") {
             if ($selectedProps.Count -eq 0) {
                 Write-Host "Devi selezionare almeno una prop!" -ForegroundColor Red
@@ -103,31 +134,31 @@ function Show-PropSelectionMenu {
             Start-Sleep 1
         }
     }
-    
+
     return $selectedProps
 }
 
 function Show-InstanceCountMenu {
     param([array]$selectedProps, [hashtable]$existingMap)
-    
+
     $instanceCounts = @{}
-    
+
     Clear-Host
     Write-Host "=================================================="
     Write-Host "  NUMERO ISTANZE PER PROP"
     Write-Host "=================================================="
     Write-Host ""
-    
+
     foreach ($prop in $selectedProps) {
         $existingCount = 0
         if ($existingMap.ContainsKey($prop)) {
             $existingCount = $existingMap[$prop].Count
         }
-        
+
         if ($existingCount -gt 0) {
             Write-Host "ATTENZIONE: $prop gia installato con $existingCount istanza(e)" -ForegroundColor Yellow
             $confirm = (Read-Host "Vuoi aggiungere altre istanze (s/n)").Trim().ToLower()
-            
+
             if ($confirm -eq "s") {
                 $validInput = $false
                 while (-not $validInput) {
@@ -158,25 +189,25 @@ function Show-InstanceCountMenu {
             }
         }
     }
-    
+
     return $instanceCounts
 }
 
 function Show-HedgeSelectionMenu {
     param([hashtable]$existingMap)
-    
+
     $validInput = $false
     $includeHedge = $false
-    
+
     $hedgeExists = $existingMap.ContainsKey("HEDGE")
-    
+
     while (-not $validInput) {
         Clear-Host
         Write-Host "=================================================="
         Write-Host "  CONFIGURAZIONE HEDGE"
         Write-Host "=================================================="
         Write-Host ""
-        
+
         if ($hedgeExists) {
             Write-Host "ATTENZIONE: HEDGE gia installato!" -ForegroundColor Yellow
             Write-Host ""
@@ -189,9 +220,9 @@ function Show-HedgeSelectionMenu {
             Write-Host "[n] No, salta HEDGE"
         }
         Write-Host ""
-        
+
         $choice = (Read-Host "Scelta [s/n]").Trim().ToLower()
-        
+
         if ($choice -eq "s") {
             $includeHedge = $true
             $validInput = $true
@@ -209,7 +240,7 @@ function Show-HedgeSelectionMenu {
         }
         Start-Sleep 1
     }
-    
+
     return $includeHedge
 }
 
@@ -219,7 +250,7 @@ function Show-ConfirmationMenu {
         [hashtable]$instanceCounts,
         [bool]$includeHedge
     )
-    
+
     Clear-Host
     Write-Host "=================================================="
     Write-Host "  RIEPILOGO CONFIGURAZIONE"
@@ -241,46 +272,66 @@ function Show-ConfirmationMenu {
         Write-Host "HEDGE: NO" -ForegroundColor Cyan
     }
     Write-Host ""
-    
+
     $totalInstances = 0
     foreach ($count in $instanceCounts.Values) {
         $totalInstances += $count
     }
     if ($includeHedge) { $totalInstances++ }
-    
+
     Write-Host "TOTALE NUOVE ISTANZE: $totalInstances" -ForegroundColor Yellow
     Write-Host ""
-    
+
     $confirm = (Read-Host "Confermi questa configurazione (s/n)").Trim().ToLower()
     return ($confirm -eq "s")
 }
 
 function Create-DesktopShortcut {
-    param([string]$instanceLabel, [string]$terminalPath, [string]$iconPath)
-    
+    param(
+        [string]$instanceLabel,
+        [string]$customPath,
+        [string]$iconPath
+    )
+
     try {
         $desktopPath = [Environment]::GetFolderPath("Desktop")
         $shortcutPath = Join-Path $desktopPath "$instanceLabel.lnk"
-        
-        if (Test-Path $terminalPath) {
-            $WshShell = New-Object -ComObject WScript.Shell
-            $Shortcut = $WshShell.CreateShortcut($shortcutPath)
-            $Shortcut.TargetPath = Join-Path $terminalPath "terminal.exe"
-            $Shortcut.WorkingDirectory = $terminalPath
-            $Shortcut.Description = "MetaTrader 5 - $instanceLabel"
-            
-            if (Test-Path $iconPath) {
-                $Shortcut.IconLocation = $iconPath
-            }
-            
-            $Shortcut.Save()
-            Write-Log "Shortcut desktop creato: $shortcutPath"
-            Write-Host "OK - Shortcut desktop creato" -ForegroundColor Green
-            return $true
+
+        $terminalExe = $null
+
+        $terminal64 = Join-Path $customPath "terminal64.exe"
+        if (Test-Path $terminal64) {
+            $terminalExe = $terminal64
+            Write-Log "Trovato terminal64.exe"
         } else {
-            Write-Log "ERRORE: terminal.exe non trovato in $terminalPath"
+            $terminal32 = Join-Path $customPath "terminal.exe"
+            if (Test-Path $terminal32) {
+                $terminalExe = $terminal32
+                Write-Log "Trovato terminal.exe"
+            }
+        }
+
+        if (-not $terminalExe) {
+            Write-Log "ERRORE: Nessun terminal.exe o terminal64.exe trovato in $customPath"
+            Write-Host "ERRORE - Eseguibile MT5 non trovato" -ForegroundColor Red
             return $false
         }
+
+        $WshShell = New-Object -ComObject WScript.Shell
+        $Shortcut = $WshShell.CreateShortcut($shortcutPath)
+
+        $Shortcut.TargetPath = $terminalExe
+        $Shortcut.WorkingDirectory = $customPath
+        $Shortcut.Description = "MetaTrader 5 - $instanceLabel"
+
+        if (Test-Path $iconPath) {
+            $Shortcut.IconLocation = $iconPath
+        }
+
+        $Shortcut.Save()
+        Write-Log "Shortcut desktop creato: $shortcutPath -> $terminalExe"
+        Write-Host "OK - Shortcut desktop creato" -ForegroundColor Green
+        return $true
     } catch {
         Write-Log "ERRORE creazione shortcut: $($_.Exception.Message)"
         Write-Host "ERRORE creazione shortcut" -ForegroundColor Red
@@ -288,6 +339,291 @@ function Create-DesktopShortcut {
     }
 }
 
+function Copy-ConfigurationFiles {
+    param(
+        [string]$configSrc,
+        [string]$profilePath,
+        [string]$instanceLabel
+    )
+
+    if (-not (Test-Path $configSrc)) {
+        Write-Log "AVVISO: Config source non trovato: $configSrc"
+        Write-Host "AVVISO - Config non trovata" -ForegroundColor Yellow
+        return $false
+    }
+
+    try {
+        $configItems = Get-ChildItem -Path $configSrc -ErrorAction SilentlyContinue
+        $copiedCount = 0
+
+        foreach ($item in $configItems) {
+            $destPath = Join-Path $profilePath $item.Name
+
+            try {
+                if ($item.PSIsContainer) {
+                    if (-not (Test-Path $destPath)) {
+                        New-Item -ItemType Directory -Path $destPath -Force -ErrorAction Stop | Out-Null
+                    }
+
+                    Get-ChildItem -Path $item.FullName -Recurse -ErrorAction SilentlyContinue | ForEach-Object {
+                        $relPath = $_.FullName.Substring($item.FullName.Length + 1)
+                        $target = Join-Path $destPath $relPath
+
+                        if ($_.PSIsContainer) {
+                            if (-not (Test-Path $target)) {
+                                New-Item -ItemType Directory -Path $target -Force -ErrorAction SilentlyContinue | Out-Null
+                            }
+                        } else {
+                            Copy-Item -Path $_.FullName -Destination $target -Force -ErrorAction SilentlyContinue
+                            $copiedCount++
+                        }
+                    }
+                    Write-Log "Cartella copiata: $($item.Name)"
+                } else {
+                    Copy-Item -Path $item.FullName -Destination $destPath -Force -ErrorAction Stop
+                    $copiedCount++
+                    Write-Log "File copiato: $($item.Name)"
+                }
+            } catch {
+                Write-Log "ERRORE copia elemento $($item.Name): $($_.Exception.Message)"
+            }
+        }
+
+        Write-Log "Configurazione copiata per $instanceLabel ($copiedCount file)"
+        Write-Host "OK - Config copiata ($copiedCount file)" -ForegroundColor Green
+        return $true
+    } catch {
+        Write-Log "ERRORE copia config: $($_.Exception.Message)"
+        Write-Host "ERRORE copia config" -ForegroundColor Red
+        return $false
+    }
+}
+
+function Install-VCRedistributable {
+    param([string]$programsPath)
+
+    Write-Log "Ricerca VC Redistributables in: $programsPath"
+
+    $vcPatterns = @(
+        "vc_redist.x64.exe",
+        "vc_redist.x86.exe",
+        "vcredist_x64.exe",
+        "vcredist_x86.exe",
+        "*vcredist*x64*.exe",
+        "*vcredist*x86*.exe",
+        "*VC_redist*.exe",
+        "*VC_redist*x64*.exe",
+        "*VC_redist*x86*.exe"
+    )
+
+    $vcFiles = @()
+
+    foreach ($pattern in $vcPatterns) {
+        try {
+            $found = @(Get-ChildItem -Path $programsPath -Filter $pattern -ErrorAction SilentlyContinue)
+            foreach ($file in $found) {
+                if ($vcFiles.FullName -notcontains $file.FullName) {
+                    $vcFiles += $file
+                    Write-Log "VC Redist trovato: $($file.Name)"
+                }
+            }
+        } catch {
+            Write-Log "Errore ricerca pattern $pattern : $($_.Exception.Message)"
+        }
+    }
+
+    if ($vcFiles.Count -eq 0) {
+        Write-Log "Nessun VC Redist trovato in $programsPath"
+        Write-Host "AVVISO - Nessun VC Redist trovato" -ForegroundColor Yellow
+        return
+    }
+
+    Write-Host ""
+    Write-Host "Installazione VC Redistributables..." -ForegroundColor Cyan
+    Write-Log "Trovati $($vcFiles.Count) installer VC Redist"
+
+    foreach ($vcFile in $vcFiles) {
+        $vcName = $vcFile.Name
+        $vcPath = $vcFile.FullName
+
+        Write-Host "Installo: $vcName..." -NoNewline
+        Write-Log "Avvio installer VC Redist: $vcName (Path: $vcPath)"
+
+        try {
+            if (-not (Test-Path $vcPath)) {
+                Write-Host " [ERRORE FILE]" -ForegroundColor Red
+                Write-Log "ERRORE: File non trovato: $vcPath"
+                continue
+            }
+
+            $process = Start-Process -FilePath $vcPath -ArgumentList "/quiet /norestart" -PassThru -ErrorAction Stop
+            $process.WaitForExit()
+
+            if ($process.ExitCode -eq 0 -or $process.ExitCode -eq 3010) {
+                Write-Host " [OK]" -ForegroundColor Green
+                Write-Log "VC Redist installato: $vcName (Exit code: $($process.ExitCode))"
+            } else {
+                Write-Host " [AVVISO]" -ForegroundColor Yellow
+                Write-Log "VC Redist completato con codice: $($process.ExitCode) ($vcName)"
+            }
+        } catch {
+            Write-Host " [ERRORE]" -ForegroundColor Red
+            Write-Log "ERRORE installazione VC Redist $vcName : $($_.Exception.Message)"
+        }
+
+        Start-Sleep -Seconds 1
+    }
+
+    Write-Host ""
+}
+
+# ✅ VERSIONE v3 CON RETRY PER FILE LOCKED - HEDGE
+function Install-MT5InstanceHedge {
+    param(
+        [string]$instanceLabel,
+        [string]$setupExe,
+        [string]$customPath,
+        [string]$configSrc,
+        [string]$iconPath,
+        [int]$currentStep,
+        [int]$totalSteps,
+        [string]$terminalRoot,
+        [bool]$createDesktopShortcut
+    )
+
+    Write-Log "INSTALL HEDGE: $instanceLabel"
+    Write-Progress -Activity "Installazione $instanceLabel" -Status "Avvio installer" -PercentComplete (($currentStep-1)*100/$totalSteps)
+
+    $foldersBefore = @()
+    if (Test-Path $terminalRoot) {
+        $foldersBefore = Get-ChildItem -Path $terminalRoot -Directory -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName }
+    }
+
+    try {
+        Write-Host "Avvio: $instanceLabel"
+        Start-Process -FilePath $setupExe -ArgumentList "/auto /path:`"$customPath`"" -Wait -ErrorAction Stop
+        Write-Log "Installer $instanceLabel terminato."
+    } catch {
+        Write-Log "ERRORE Start-Process $instanceLabel : $($_.Exception.Message)"
+        Write-Host "ERRORE avvio installer" -ForegroundColor Red
+        return
+    }
+
+    Write-Progress -Activity "Installazione $instanceLabel" -Status "Attendo creazione profilo" -PercentComplete (($currentStep-0.5)*100/$totalSteps)
+    Start-Sleep -Seconds 2
+
+    $newFolder = Get-NewTerminalFolder $foldersBefore $terminalRoot
+
+    Write-Log "Cartella HASH trovata: $newFolder"
+
+    if ($newFolder) {
+        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Avvio MT5 per inizializzazione" -PercentComplete (($currentStep-0.3)*100/$totalSteps)
+
+        Write-Log "Avvio MT5 $instanceLabel per inizializzazione..."
+        Write-Host "Avvio MT5 (10 secondi)..." -ForegroundColor Cyan
+
+        $terminalExe = $null
+        $terminal64 = Join-Path $customPath "terminal64.exe"
+        $terminal32 = Join-Path $customPath "terminal.exe"
+
+        if (Test-Path $terminal64) {
+            $terminalExe = $terminal64
+        } elseif (Test-Path $terminal32) {
+            $terminalExe = $terminal32
+        }
+
+        if ($terminalExe) {
+            try {
+                $mtProcess = Start-Process -FilePath $terminalExe -WorkingDirectory $customPath -PassThru -ErrorAction Stop
+
+                Write-Log "MT5 avviato, attesa 5 secondi..."
+                Start-Sleep -Seconds 5
+
+                Write-Log "Chiusura MT5 $instanceLabel..."
+                Stop-Process -Id $mtProcess.Id -Force -ErrorAction SilentlyContinue
+
+                Write-Log "Attesa 10 secondi per chiudere tutti i processi..."
+                Start-Sleep -Seconds 10
+
+                Write-Log "MT5 $instanceLabel chiuso"
+                Write-Host "OK - MT5 inizializzato e chiuso" -ForegroundColor Green
+            } catch {
+                Write-Log "ERRORE durante inizializzazione MT5: $($_.Exception.Message)"
+                Write-Host "AVVISO - Errore inizializzazione MT5 (continuo comunque)" -ForegroundColor Yellow
+            }
+        }
+
+        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Ripulitura profilo HEDGE (HASH)" -PercentComplete (($currentStep - 0.15)*100/$totalSteps)
+        Write-Log "Ripulitura contenuto della cartella profilo HEDGE (HASH)..."
+        Write-Log "Cartella profilo HEDGE: $newFolder"
+        Write-Host "Ripulitura configurazione profilo HEDGE..." -ForegroundColor Yellow
+
+        try {
+            $profiloItems = Get-ChildItem -Path $newFolder -Force -ErrorAction SilentlyContinue
+            Write-Log "Elementi da eliminare in $newFolder : $( $profiloItems.Count )"
+            foreach ($item in $profiloItems)
+            {
+                $maxRetries = 3
+                $retryCount = 0
+                $deleted = $false
+
+                while ($retryCount -lt $maxRetries -and -not $deleted)
+                {
+                    try
+                    {
+                        if ($item.PSIsContainer)
+                        {
+                            Remove-Item -Path $item.FullName -Recurse -Force -ErrorAction Stop
+                        }
+                        else
+                        {
+                            Remove-Item -Path $item.FullName -Force -ErrorAction Stop
+                        }
+                        Write-Log "Eliminato da profilo HEDGE: $( $item.Name )"
+                        $deleted = $true
+                    }
+                    catch
+                    {
+                        $retryCount++
+                        if ($retryCount -lt $maxRetries)
+                        {
+                            Write-Log "AVVISO: Tentativo $retryCount fallito per $( $item.Name ), riprovo tra 2 sec..."
+                            Start-Sleep -Seconds 2
+                        }
+                        else
+                        {
+                            Write-Log "AVVISO: Impossibile eliminare $( $item.Name ) dopo $maxRetries tentativi: $( $_.Exception.Message )"
+                        }
+                    }
+                }
+            }
+            Write-Log "Contenuto profilo HEDGE ripulito"
+            Write-Host "OK - Profilo HEDGE ripulito" -ForegroundColor Green
+        } catch {
+            Write-Log "ERRORE ripulitura profilo HEDGE: $( $_.Exception.Message )"
+            Write-Host "ERRORE ripulitura profilo HEDGE (continuo comunque)" -ForegroundColor Red
+        }
+
+        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Copia config standard_config_edge in profilo HEDGE" -PercentComplete (($currentStep)*100/$totalSteps)
+        Write-Log "Copia configurazione HEDGE da $configSrc nel profilo $newFolder"
+        Write-Host "Copia configurazione standard_config_edge..." -ForegroundColor Cyan
+
+        Copy-ConfigurationFiles -configSrc $configSrc -profilePath $newFolder -instanceLabel $instanceLabel
+
+        if ($createDesktopShortcut) {
+            Create-DesktopShortcut -instanceLabel $instanceLabel -customPath $customPath -iconPath $iconPath
+        }
+
+        Write-Log "$instanceLabel OK"
+    } else {
+        Write-Log "❌ ERRORE: Cartella HASH non trovata per $instanceLabel"
+        Write-Host "❌ ERRORE - Cartella HASH non trovata" -ForegroundColor Red
+    }
+
+    Start-Sleep -Seconds 1
+}
+
+# ✅ PROP VERSION v3 CON RETRY PER FILE LOCKED
 function Install-MT5Instance {
     param(
         [string]$instanceLabel,
@@ -299,17 +635,18 @@ function Install-MT5Instance {
         [int]$currentStep,
         [int]$totalSteps,
         [string]$terminalRoot,
-        [bool]$createDesktopShortcut
+        [bool]$createDesktopShortcut,
+        [bool]$isReinstall = $false
     )
-    
-    Write-Log "INSTALL: $instanceLabel"
+
+    Write-Log "INSTALL PROP: $instanceLabel"
     Write-Progress -Activity "Installazione $instanceLabel" -Status "Avvio installer" -PercentComplete (($currentStep-1)*100/$totalSteps)
-    
+
     $foldersBefore = @()
     if (Test-Path $terminalRoot) {
         $foldersBefore = Get-ChildItem -Path $terminalRoot -Directory -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName }
     }
-    
+
     try {
         Write-Host "Avvio: $instanceLabel"
         Start-Process -FilePath $setupExe -ArgumentList "/auto /path:`"$customPath`"" -Wait -ErrorAction Stop
@@ -319,50 +656,129 @@ function Install-MT5Instance {
         Write-Host "ERRORE avvio installer" -ForegroundColor Red
         return
     }
-    
-    Write-Progress -Activity "Installazione $instanceLabel" -Status "Attendo creazione cartella" -PercentComplete (($currentStep-0.5)*100/$totalSteps)
-    Start-Sleep -Seconds 5
 
-    $newFolder = Get-NewTerminalFolder $foldersBefore $terminalRoot
-    if ($newFolder) {
-        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Copia config + icona" -PercentComplete (($currentStep)*100/$totalSteps)
-        
-        if (Test-Path $configSrc) {
-            try {
-                Copy-Item -Path "$configSrc\*" -Destination $newFolder -Recurse -Force -ErrorAction Stop
-                Write-Log "Config copiata per $instanceLabel"
-            } catch {
-                Write-Log "ERRORE copia config: $($_.Exception.Message)"
-                Write-Host "ERRORE copia config" -ForegroundColor Red
-            }
-        } else {
-            Write-Log "AVVISO: configSrc non trovato"
+    Write-Progress -Activity "Installazione $instanceLabel" -Status "Attendo creazione cartella" -PercentComplete (($currentStep-0.5)*100/$totalSteps)
+    Start-Sleep -Seconds 2
+
+    $newFolder = $null
+
+    if ($isReinstall) {
+        $newFolder = Get-ExistingTerminalFolder $terminalRoot $instanceLabel
+        if ($newFolder) {
+            Write-Log "Reinstallazione: Usando profilo esistente"
         }
+    }
+
+    if (-not $newFolder) {
+        $newFolder = Get-NewTerminalFolder $foldersBefore $terminalRoot
+    }
+
+    if ($newFolder) {
+        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Avvio MT5 per inizializzazione" -PercentComplete (($currentStep-0.3)*100/$totalSteps)
+
+        Write-Log "Avvio MT5 $instanceLabel per inizializzazione..."
+        Write-Host "Avvio MT5 (10 secondi)..." -ForegroundColor Cyan
+
+        $terminalExe = $null
+        $terminal64 = Join-Path $customPath "terminal64.exe"
+        $terminal32 = Join-Path $customPath "terminal.exe"
+
+        if (Test-Path $terminal64) {
+            $terminalExe = $terminal64
+        } elseif (Test-Path $terminal32) {
+            $terminalExe = $terminal32
+        }
+
+        if ($terminalExe) {
+            try {
+                $mtProcess = Start-Process -FilePath $terminalExe -WorkingDirectory $customPath -PassThru -ErrorAction Stop
+
+                Write-Log "MT5 avviato, attesa 10 secondi..."
+                Start-Sleep -Seconds 10
+
+                Write-Log "Chiusura MT5 $instanceLabel..."
+                Stop-Process -Id $mtProcess.Id -Force -ErrorAction SilentlyContinue
+
+                Write-Log "Attesa 5 secondi per chiudere tutti i processi..."
+                Start-Sleep -Seconds 5
+
+                Write-Log "MT5 $instanceLabel chiuso"
+                Write-Host "OK - MT5 inizializzato e chiuso" -ForegroundColor Green
+            } catch {
+                Write-Log "ERRORE durante inizializzazione MT5: $($_.Exception.Message)"
+                Write-Host "AVVISO - Errore inizializzazione MT5 (continuo comunque)" -ForegroundColor Yellow
+            }
+        }
+
+        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Ripulitura profilo HASH" -PercentComplete (($currentStep-0.15)*100/$totalSteps)
+        Write-Log "Ripulitura contenuto della cartella profilo (HASH)..."
+        Write-Log "Cartella profilo: $newFolder"
+        Write-Host "Ripulitura configurazione profilo..." -ForegroundColor Yellow
+
+        try {
+            $profiloItems = Get-ChildItem -Path $newFolder -Force -ErrorAction SilentlyContinue
+            Write-Log "Elementi da eliminare in $newFolder : $($profiloItems.Count)"
+            foreach ($item in $profiloItems) {
+                $maxRetries = 3
+                $retryCount = 0
+                $deleted = $false
+
+                while ($retryCount -lt $maxRetries -and -not $deleted) {
+                    try {
+                        if ($item.PSIsContainer) {
+                            Remove-Item -Path $item.FullName -Recurse -Force -ErrorAction Stop
+                        } else {
+                            Remove-Item -Path $item.FullName -Force -ErrorAction Stop
+                        }
+                        Write-Log "Eliminato da profilo: $($item.Name)"
+                        $deleted = $true
+                    } catch {
+                        $retryCount++
+                        if ($retryCount -lt $maxRetries) {
+                            Write-Log "AVVISO: Tentativo $retryCount fallito per $($item.Name), riprovo tra 2 sec..."
+                            Start-Sleep -Seconds 2
+                        } else {
+                            Write-Log "AVVISO: Impossibile eliminare $($item.Name) dopo $maxRetries tentativi: $($_.Exception.Message)"
+                        }
+                    }
+                }
+            }
+            Write-Log "Contenuto profilo HASH ripulito"
+            Write-Host "OK - Profilo ripulito" -ForegroundColor Green
+        } catch {
+            Write-Log "ERRORE ripulitura profilo HASH: $($_.Exception.Message)"
+            Write-Host "ERRORE ripulitura (continuo comunque)" -ForegroundColor Red
+        }
+
+        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Copia config personalizzata in profilo HASH" -PercentComplete (($currentStep)*100/$totalSteps)
+        Write-Log "Copia configurazione personalizzata nel profilo HASH..."
+        Write-Host "Copia configurazione personalizzata..." -ForegroundColor Cyan
+
+        Copy-ConfigurationFiles -configSrc $configSrc -profilePath $newFolder -instanceLabel $instanceLabel
 
         $terminalIconPath = Join-Path $newFolder "terminal.ico"
         if (Test-Path $iconPath) {
             try {
                 Copy-Item -Path $iconPath -Destination $terminalIconPath -Force -ErrorAction Stop
                 Write-Log "$instanceLabel OK"
-                Write-Host "OK - $instanceLabel" -ForegroundColor Green
+                Write-Host "OK - $instanceLabel configurato" -ForegroundColor Green
             } catch {
                 Write-Log "ERRORE copia icona: $($_.Exception.Message)"
                 Write-Host "ERRORE copia icona" -ForegroundColor Red
             }
         } else {
-            Write-Log "AVVISO: icona non trovata"
+            Write-Log "AVVISO: icona non trovata: $iconPath"
             Write-Host "AVVISO - icona non trovata" -ForegroundColor Yellow
         }
-        
-        # Crea shortcut desktop se richiesto
+
         if ($createDesktopShortcut) {
-            Create-DesktopShortcut -instanceLabel $instanceLabel -terminalPath $newFolder -iconPath $terminalIconPath
+            Create-DesktopShortcut -instanceLabel $instanceLabel -customPath $customPath -iconPath $terminalIconPath
         }
     } else {
-        Write-Log "ERRORE: Nessuna cartella profilo creata per $instanceLabel"
-        Write-Host "ERRORE - profilo non creato" -ForegroundColor Red
+        Write-Log "❌ ERRORE: Nessuna cartella profilo HASH creata per $instanceLabel"
+        Write-Host "❌ ERRORE - profilo non creato (AppData/Terminal/HASH non trovato)" -ForegroundColor Red
     }
-    
+
     Start-Sleep -Seconds 1
 }
 
@@ -384,7 +800,6 @@ function Invoke-ArbitexInstaller {
     $selectedProps = Show-PropSelectionMenu $propList
     Write-Log "Prop selezionate: $($selectedProps -join ', ')"
 
-    # Mappa installazioni esistenti
     $existingMap = @{}
     if (Test-Path $baseInstallPath) {
         $existingFolders = Get-ChildItem -Path $baseInstallPath -Directory -ErrorAction SilentlyContinue | ForEach-Object { $_.Name }
@@ -408,7 +823,6 @@ function Invoke-ArbitexInstaller {
     $includeHedgeChoice = Show-HedgeSelectionMenu $existingMap
     Write-Log "Include HEDGE: $includeHedgeChoice"
 
-    # FIX: Usa parametri nominati
     $confirmed = Show-ConfirmationMenu -selectedProps $selectedProps -instanceCounts $instanceCounts -includeHedge $includeHedgeChoice
     if (-not $confirmed) {
         Write-Log "Installazione annullata dall'utente."
@@ -416,7 +830,6 @@ function Invoke-ArbitexInstaller {
         return
     }
 
-    # Chiedi se creare shortcut desktop
     $createDesktopShortcuts = $false
     $shortcutChoice = (Read-Host "Vuoi creare shortcut sul desktop (s/n)").Trim().ToLower()
     if ($shortcutChoice -eq "s") {
@@ -470,6 +883,14 @@ function Invoke-ArbitexInstaller {
         return
     }
 
+    Write-Host ""
+    Write-Host "Step 1: Verifica e installa VC Redistributables" -ForegroundColor Cyan
+    Install-VCRedistributable -programsPath $programsPath
+    Write-Host ""
+    Write-Host "Step 2: Installazione MetaTrader 5" -ForegroundColor Cyan
+    Write-Host ""
+    Start-Sleep -Seconds 2
+
     $totalSteps = 0
     foreach ($prop in $selectedProps) {
         $totalSteps += $instanceCounts[$prop]
@@ -478,72 +899,65 @@ function Invoke-ArbitexInstaller {
 
     $step = 1
 
-    # SEZIONE HEDGE SEMPLIFICATA
     if ($includeHedgeChoice) {
         $hedgeExists = $existingMap.ContainsKey("HEDGE")
 
         if ($hedgeExists) {
-            # HEDGE esiste già - chiedi cosa fare
             Write-Host ""
             Write-Host "HEDGE gia installato. Cosa vuoi fare?" -ForegroundColor Yellow
             Write-Host "[1] Installa HEDGE 2 (nuova istanza incrementale)"
-            Write-Host "[2] Reinstalla HEDGE (sovrascrivi l'esistente)"
+            Write-Host "[2] Reinstalla HEDGE (sovrascrivi l'esistente)" -ForegroundColor Cyan
             Write-Host "[x] Skip HEDGE"
 
             $hedgeChoice = (Read-Host "Scelta [1/2/x]").Trim().ToLower()
 
             if ($hedgeChoice -eq "1") {
-                # Installa come HEDGE 2
                 $instanceLabel = "HEDGE 2"
                 $customPath = Join-Path $baseInstallPath "MetaTrader 5 - $instanceLabel"
                 $iconPath = $propIcons["HEDGE"]
-                Write-Log "Installa come: $instanceLabel"
-                Install-MT5Instance -instanceLabel $instanceLabel -setupExe $mt5setupExe -customPath $customPath `
-                    -configSrc $edgeConfig -iconPath $iconPath -instanceNum 2 -currentStep $step -totalSteps $totalSteps `
+                Write-Log "Installa come: $instanceLabel (HEDGE - config in AppData/Terminal)"
+                Install-MT5InstanceHedge -instanceLabel $instanceLabel -setupExe $mt5setupExe -customPath $customPath `
+                    -configSrc $edgeConfig -iconPath $iconPath -currentStep $step -totalSteps $totalSteps `
                     -terminalRoot $terminalRoot -createDesktopShortcut $createDesktopShortcuts
             } elseif ($hedgeChoice -eq "2") {
-                # Reinstalla HEDGE (sobrascrivi)
                 $instanceLabel = "HEDGE"
                 $customPath = Join-Path $baseInstallPath "MetaTrader 5 - $instanceLabel"
                 $iconPath = $propIcons["HEDGE"]
-                Write-Log "Reinstalla: $instanceLabel (sovrascrivi)"
-                Install-MT5Instance -instanceLabel $instanceLabel -setupExe $mt5setupExe -customPath $customPath `
-                    -configSrc $edgeConfig -iconPath $iconPath -instanceNum 1 -currentStep $step -totalSteps $totalSteps `
+                Write-Log "Reinstalla: $instanceLabel (HEDGE - config in AppData/Terminal)"
+                Write-Host "Reinstallazione HEDGE..." -ForegroundColor Cyan
+                Install-MT5InstanceHedge -instanceLabel $instanceLabel -setupExe $mt5setupExe -customPath $customPath `
+                    -configSrc $edgeConfig -iconPath $iconPath -currentStep $step -totalSteps $totalSteps `
                     -terminalRoot $terminalRoot -createDesktopShortcut $createDesktopShortcuts
             } else {
-                # Skip
                 Write-Host "SKIP - HEDGE non modificato" -ForegroundColor Yellow
                 Write-Log "Skip HEDGE"
                 $step++
-                # Continua senza installare
             }
         } else {
-            # HEDGE non esiste, installa normalmente
             $instanceLabel = "HEDGE"
             $customPath = Join-Path $baseInstallPath "MetaTrader 5 - $instanceLabel"
             $iconPath = $propIcons["HEDGE"]
-            Write-Log "Prima installazione HEDGE"
-            Install-MT5Instance -instanceLabel $instanceLabel -setupExe $mt5setupExe -customPath $customPath `
-                -configSrc $edgeConfig -iconPath $iconPath -instanceNum 1 -currentStep $step -totalSteps $totalSteps `
+            Write-Log "Prima installazione HEDGE (config in AppData/Terminal)"
+            Install-MT5InstanceHedge -instanceLabel $instanceLabel -setupExe $mt5setupExe -customPath $customPath `
+                -configSrc $edgeConfig -iconPath $iconPath -currentStep $step -totalSteps $totalSteps `
                 -terminalRoot $terminalRoot -createDesktopShortcut $createDesktopShortcuts
         }
 
         $step++
     }
 
-
     foreach ($prop in $selectedProps) {
         $numInstances = $instanceCounts[$prop]
-        
+
         if ($numInstances -eq 0) {
             continue
         }
-        
+
         $nextInstanceNum = 1
         if ($existingMap.ContainsKey($prop)) {
             $nextInstanceNum = ($existingMap[$prop] | Measure-Object -Maximum | Select-Object -ExpandProperty Maximum) + 1
         }
-        
+
         for ($i = 0; $i -lt $numInstances; $i++) {
             $instanceNum = $nextInstanceNum + $i
             $instanceLabel = "$prop $instanceNum"
@@ -552,7 +966,7 @@ function Invoke-ArbitexInstaller {
 
             Install-MT5Instance -instanceLabel $instanceLabel -setupExe $mt5setupExe -customPath $customPath `
                 -configSrc $propConfig -iconPath $iconPath -instanceNum $instanceNum -currentStep $step -totalSteps $totalSteps `
-                -terminalRoot $terminalRoot -createDesktopShortcut $createDesktopShortcuts
+                -terminalRoot $terminalRoot -createDesktopShortcut $createDesktopShortcuts -isReinstall $false
             $step++
         }
     }
