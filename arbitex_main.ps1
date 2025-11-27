@@ -71,9 +71,10 @@ $eaGithubUrl = ''
 # URL GitHub per aggiornare l'installer stesso
 $installerGithubZipUrl = 'https://github.com/BeaterGhalio/arbitex-installer-tools/archive/refs/heads/main.zip'
 $installerGithubVersionUrl = 'https://raw.githubusercontent.com/BeaterGhalio/arbitex-installer-tools/main/installer_version.txt'
+$installerGithubRawBaseUrl = 'https://raw.githubusercontent.com/BeaterGhalio/arbitex-installer-tools/main'
 
 # Auto-aggiornamento non interattivo dell'installer (se disponibile nuova versione)
-Invoke-ArbitexSelfUpdate -zipUrl $installerGithubZipUrl -versionUrl $installerGithubVersionUrl
+Invoke-ArbitexSelfUpdate -zipUrl $installerGithubZipUrl -versionUrl $installerGithubVersionUrl -rawBaseUrl $installerGithubRawBaseUrl
 
 $requiredFolders = @($programsPath, $edgeConfig, $propConfig, $iconSourcePath)
 foreach ($folder in $requiredFolders) {
