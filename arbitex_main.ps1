@@ -4,11 +4,7 @@
 
 $ErrorActionPreference = 'Continue'
 
-function Write-Log {
-    param([string]$msg)
-    Add-Content -Path "installation_log.txt" -Value ("[{0}] {1}" -f (Get-Date -Format "yyyy-MM-dd HH:mm:ss"), $msg) -ErrorAction SilentlyContinue
-    Write-Host $msg -ForegroundColor Cyan
-}
+. "$PSScriptRoot\arbitex_common.ps1"
 
 trap {
     $errorMsg = "ERRORE CRITICO: $($_.Exception.Message)"
@@ -96,20 +92,6 @@ $propIcons = @{
 
 $propList = @("FTMO", "The5ers", "FunderPro", "FundingPips", "Fintokei", "E8 Markets", "FundedNext")
 $includeEdge = $true
-
-function Invoke-Safe {
-    param([scriptblock]$Action, [string]$Description)
-    try {
-        Write-Log "Avvio: $Description"
-        & $Action
-        Write-Log "Completato: $Description"
-        return $true
-    } catch {
-        Write-Log "ERRORE in $Description : $($_.Exception.Message)"
-        Write-Host "ERRORE: $Description" -ForegroundColor Red
-        return $false
-    }
-}
 
 function SecretMenu {
     $choice = ""

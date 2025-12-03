@@ -2311,3 +2311,123 @@ Riferimento a variabile non valido. ':' non è seguito da un carattere del nome d
 [2025-11-27 21:44:17] Versione remota installer: 1.0.1
 [2025-11-27 21:44:17] Installer gia aggiornato (locale=1.0.1, remoto=1.0.1)
 [2025-11-27 21:44:17] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
+[2025-12-02 18:17:04] === AVVIO ARBITEX VPS Installation Wizard ===
+[2025-12-02 18:17:04] Modulo caricato: arbitex_installer.ps1
+[2025-12-02 18:17:04] Modulo caricato: arbitex_update_ea.ps1
+[2025-12-02 18:17:04] Modulo caricato: arbitex_update_config.ps1
+[2025-12-02 18:17:04] Modulo caricato: arbitex_cleanup.ps1
+[2025-12-02 18:17:05] Modulo caricato: arbitex_selfupdate.ps1
+[2025-12-02 18:17:05] Verifica aggiornamenti per Arbitex VPS Installer...
+[2025-12-02 18:17:05] Versione locale installer: 1.0.1
+[2025-12-02 18:17:05] Versione remota installer: 1.0.1
+[2025-12-02 18:17:05] Installer gia aggiornato (locale=1.0.1, remoto=1.0.1)
+[2025-12-02 18:17:05] Wizard avviato da: C:\Users\pc\Downloads\arbitex-12112025
+[2025-12-02 18:17:10] Avvio: Pulizia interattiva MT5
+[2025-12-02 18:17:10] === AVVIO PULIZIA MT5 ===
+[2025-12-02 18:17:23] Terminazione processi MT5...
+[2025-12-02 18:17:23] Processo terminato: terminal
+[2025-12-02 18:17:23] Processo terminato: terminal64
+[2025-12-02 18:17:23] Processo terminato: metaeditor
+[2025-12-02 18:17:24] Processo terminato: metaeditor64
+[2025-12-02 18:17:27] Rimossa: MetaTrader 5 - FTMO 1
+[2025-12-02 18:17:27] Rimossa: MetaTrader 5 - HEDGE
+[2025-12-02 18:17:27] Rimosso profilo: Common
+[2025-12-02 18:17:27] Rimosso profilo: Community
+[2025-12-02 18:17:28] Rimosso profilo: E073E5B3F305FE26A331EDB689BE292D
+[2025-12-02 18:17:29] Rimosso profilo: FDFD1BEA56F7F1C9F028154ED82184C2
+[2025-12-02 18:17:29] Pulizia MT5 completata. Successi: 6, Errori: 0
+[2025-12-02 18:17:31] Completato: Pulizia interattiva MT5
+[2025-12-02 18:17:38] Avvio: Installazione multipla MT5
+[2025-12-02 18:17:38] Avvio wizard configurazione MT5.
+[2025-12-02 18:17:46] Prop selezionate: FTMO
+[2025-12-02 18:17:49] Istanze selezionate
+[2025-12-02 18:17:51] Include HEDGE: True
+[2025-12-02 18:17:55] Desktop shortcuts: SI
+[2025-12-02 18:17:55] Inizio installazione multipla MT5.
+[2025-12-02 18:17:55] Ricerca VC Redistributables in: C:\Users\pc\Downloads\arbitex-12112025\Programs
+[2025-12-02 18:17:55] VC Redist trovato: 3_vcredist_x64.exe
+[2025-12-02 18:17:55] VC Redist trovato: 1_VC_redist.x64.exe
+[2025-12-02 18:17:55] VC Redist trovato: 2_VC_redist.x86 (1).exe
+[2025-12-02 18:17:55] Trovati 3 installer VC Redist
+[2025-12-02 18:17:55] Avvio installer VC Redist: 3_vcredist_x64.exe (Path: C:\Users\pc\Downloads\arbitex-12112025\Programs\3_vcredist_x64.exe)
+[2025-12-02 18:17:56] VC Redist installato: 3_vcredist_x64.exe (Exit code: 0)
+[2025-12-02 18:17:57] Avvio installer VC Redist: 1_VC_redist.x64.exe (Path: C:\Users\pc\Downloads\arbitex-12112025\Programs\1_VC_redist.x64.exe)
+[2025-12-02 18:17:59] VC Redist installato: 1_VC_redist.x64.exe (Exit code: 3010)
+[2025-12-02 18:18:00] Avvio installer VC Redist: 2_VC_redist.x86 (1).exe (Path: C:\Users\pc\Downloads\arbitex-12112025\Programs\2_VC_redist.x86 (1).exe)
+[2025-12-02 18:18:02] VC Redist installato: 2_VC_redist.x86 (1).exe (Exit code: 0)
+[2025-12-02 18:18:05] Prima installazione HEDGE (config in AppData/Terminal)
+[2025-12-02 18:18:05] INSTALL HEDGE: HEDGE
+[2025-12-02 18:18:25] Installer HEDGE terminato.
+[2025-12-02 18:18:27] Ricerca cartella profilo HASH in: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal
+[2025-12-02 18:18:27] Max retry: 25 (attesa max ~50 secondi)
+[2025-12-02 18:18:27] Tentativo 1: trovate 3 cartelle in C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal (HASH candidate: 1)
+[2025-12-02 18:18:27] âœ… CARTELLA TROVATA al tentativo 1: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\FDFD1BEA56F7F1C9F028154ED82184C2
+[2025-12-02 18:18:27] Cartella HASH trovata: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\FDFD1BEA56F7F1C9F028154ED82184C2
+[2025-12-02 18:18:27] Avvio MT5 HEDGE per inizializzazione...
+[2025-12-02 18:18:27] MT5 avviato, attesa 5 secondi...
+[2025-12-02 18:18:32] Chiusura MT5 HEDGE...
+[2025-12-02 18:18:32] Attesa 10 secondi per chiudere tutti i processi...
+[2025-12-02 18:18:42] MT5 HEDGE chiuso
+[2025-12-02 18:18:42] Ripulitura contenuto della cartella profilo HEDGE (HASH)...
+[2025-12-02 18:18:42] Cartella profilo HEDGE: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\FDFD1BEA56F7F1C9F028154ED82184C2
+[2025-12-02 18:18:42] Elementi da eliminare in C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\FDFD1BEA56F7F1C9F028154ED82184C2 : 6
+[2025-12-02 18:18:43] Eliminato da profilo HEDGE: bases
+[2025-12-02 18:18:43] Eliminato da profilo HEDGE: config
+[2025-12-02 18:18:43] Eliminato da profilo HEDGE: logs
+[2025-12-02 18:18:44] Eliminato da profilo HEDGE: MQL5
+[2025-12-02 18:18:44] Eliminato da profilo HEDGE: Tester
+[2025-12-02 18:18:44] Eliminato da profilo HEDGE: origin.txt
+[2025-12-02 18:18:44] Contenuto profilo HEDGE ripulito
+[2025-12-02 18:18:44] Copia configurazione HEDGE da C:\Users\pc\Downloads\arbitex-12112025\standard_config_edge nel profilo C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\FDFD1BEA56F7F1C9F028154ED82184C2
+[2025-12-02 18:18:49] Cartella copiata: bases
+[2025-12-02 18:18:49] Cartella copiata: config
+[2025-12-02 18:18:49] Cartella copiata: logs
+[2025-12-02 18:18:51] Cartella copiata: MQL5
+[2025-12-02 18:18:58] Cartella copiata: standard_config_edge
+[2025-12-02 18:18:58] Cartella copiata: Tester
+[2025-12-02 18:18:58] File copiato: origin.txt
+[2025-12-02 18:18:58] File copiato: terminal.ico
+[2025-12-02 18:18:58] Configurazione copiata per HEDGE (2246 file)
+[2025-12-02 18:18:58] Trovato terminal64.exe
+[2025-12-02 18:18:58] Shortcut desktop creato: C:\Users\pc\Desktop\HEDGE.lnk -> C:\MetaTrader\MetaTrader 5 - HEDGE\terminal64.exe
+[2025-12-02 18:18:58] HEDGE OK
+[2025-12-02 18:18:59] INSTALL PROP: FTMO 1
+[2025-12-02 18:19:17] Installer FTMO 1 terminato.
+[2025-12-02 18:19:20] Ricerca cartella profilo HASH in: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal
+[2025-12-02 18:19:20] Max retry: 25 (attesa max ~50 secondi)
+[2025-12-02 18:19:20] Tentativo 1: trovate 4 cartelle in C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal (HASH candidate: 2)
+[2025-12-02 18:19:20] âœ… CARTELLA TROVATA al tentativo 1: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\E073E5B3F305FE26A331EDB689BE292D
+[2025-12-02 18:19:20] Avvio MT5 FTMO 1 per inizializzazione...
+[2025-12-02 18:19:20] MT5 avviato, attesa 10 secondi...
+[2025-12-02 18:19:30] Chiusura MT5 FTMO 1...
+[2025-12-02 18:19:30] Attesa 5 secondi per chiudere tutti i processi...
+[2025-12-02 18:19:35] MT5 FTMO 1 chiuso
+[2025-12-02 18:19:35] Ripulitura contenuto della cartella profilo (HASH)...
+[2025-12-02 18:19:35] Cartella profilo: C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\E073E5B3F305FE26A331EDB689BE292D
+[2025-12-02 18:19:35] Elementi da eliminare in C:\Users\pc\AppData\Roaming\MetaQuotes\Terminal\E073E5B3F305FE26A331EDB689BE292D : 6
+[2025-12-02 18:19:35] Eliminato da profilo: bases
+[2025-12-02 18:19:35] Eliminato da profilo: config
+[2025-12-02 18:19:35] AVVISO: Tentativo 1 fallito per logs, riprovo tra 2 sec...
+[2025-12-02 18:19:37] AVVISO: Tentativo 2 fallito per logs, riprovo tra 2 sec...
+[2025-12-02 18:19:39] AVVISO: Impossibile eliminare logs dopo 3 tentativi: Il processo non può accedere al file 'metaeditor.log' perché è in uso da un altro processo.
+[2025-12-02 18:19:39] Eliminato da profilo: MQL5
+[2025-12-02 18:19:39] Eliminato da profilo: Tester
+[2025-12-02 18:19:39] Eliminato da profilo: origin.txt
+[2025-12-02 18:19:40] Contenuto profilo HASH ripulito
+[2025-12-02 18:19:40] Copia configurazione personalizzata nel profilo HASH...
+[2025-12-02 18:19:43] Cartella copiata: bases
+[2025-12-02 18:19:43] Cartella copiata: config
+[2025-12-02 18:19:43] Cartella copiata: logs
+[2025-12-02 18:19:46] Cartella copiata: MQL5
+[2025-12-02 18:19:57] Cartella copiata: standard_config_prop
+[2025-12-02 18:19:57] Cartella copiata: Tester
+[2025-12-02 18:19:57] File copiato: origin.txt
+[2025-12-02 18:19:57] File copiato: terminal.ico
+[2025-12-02 18:19:57] Configurazione copiata per FTMO 1 (2246 file)
+[2025-12-02 18:19:57] FTMO 1 OK
+[2025-12-02 18:19:57] Trovato terminal64.exe
+[2025-12-02 18:19:57] Shortcut desktop creato: C:\Users\pc\Desktop\FTMO 1.lnk -> C:\MetaTrader\MetaTrader 5 - FTMO 1\terminal64.exe
+[2025-12-02 18:19:58] Installazione multipla MT5 completata.
+[2025-12-02 18:19:58] Completato: Installazione multipla MT5
+[2025-12-02 18:23:54] Uscita volontaria dal wizard.
+[2025-12-02 18:23:54] === FINE SESSIONE ARBITEX VPS ===

@@ -2,11 +2,6 @@
 # ARBITEX VPS - Cleanup (CON APPDATA CLEANUP)
 # =========================================
 
-function Write-Log {
-    param([string]$msg)
-    Add-Content -Path "installation_log.txt" -Value ("[{0}] {1}" -f (Get-Date -Format "yyyy-MM-dd HH:mm:ss"), $msg) -ErrorAction SilentlyContinue
-}
-
 function Stop-AllMT5Processes {
     Write-Log "Terminazione processi MT5..."
     $processes = @("terminal", "terminal64", "metaeditor", "metaeditor64")

@@ -1,0 +1,26 @@
+# Generale
+*.log
+*.tmp
+*.bak
+*.old
+*.cache
+*.swp
+*.swo
+~$*
+
+# File di log generati dall'installer
+installation_log.txt
+
+# Archivi e pacchetti scaricati/generati localmente
+*.zip
+*.7z
+*.rar
+
+# File di sistema Windows / Explorer
+Thumbs.db
+Desktop.ini
+
+# Artefatti di editor/IDE comuni
+.vscode/
+.idea/
+*.code-workspace

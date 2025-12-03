@@ -4,11 +4,6 @@
 
 Add-Type -AssemblyName System.Drawing
 
-function Write-Log {
-    param([string]$msg)
-    Add-Content -Path "installation_log.txt" -Value ("[{0}] {1}" -f (Get-Date -Format "yyyy-MM-dd HH:mm:ss"), $msg) -ErrorAction SilentlyContinue
-}
-
 function Get-ExistingTerminalFolder($terminalRoot, $instanceLabel) {
     if (-not (Test-Path $terminalRoot)) {
         return $null

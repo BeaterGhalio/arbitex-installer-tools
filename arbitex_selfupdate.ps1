@@ -66,7 +66,8 @@ function Invoke-ArbitexSelfUpdate
 {
     param(
         [string]$zipUrl,
-        [string]$versionUrl
+        [string]$versionUrl,
+        [string]$rawBaseUrl
     )
 
     Write-Log "Verifica aggiornamenti per Arbitex VPS Installer..."
