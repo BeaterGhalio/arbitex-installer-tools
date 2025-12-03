@@ -52,10 +52,17 @@ function Show-InstallationList {
     if (Test-Path $baseInstallPath) {
         $folders = Get-ChildItem -Path $baseInstallPath -Directory -ErrorAction SilentlyContinue
         foreach ($folder in $folders) {
+            $folderSizeMb = 0
+            $folderFiles = Get-ChildItem -Path $folder.FullName -Recurse -File -ErrorAction SilentlyContinue
+            if ($folderFiles)
+            {
+                $folderSizeMb = ($folderFiles | Measure-Object -Property Length -Sum).Sum / 1MB
+            }
+
             $installations += @{
                 Name = $folder.Name
                 Path = $folder.FullName
-                Size = (Get-ChildItem -Path $folder.FullName -Recurse -ErrorAction SilentlyContinue | Measure-Object -Property Length -Sum).Sum / 1MB
+                Size = $folderSizeMb
             }
         }
     }
@@ -170,11 +177,17 @@ function Get-TerminalProfiles {
     if (Test-Path $terminalRoot) {
         $folders = Get-ChildItem -Path $terminalRoot -Directory -ErrorAction SilentlyContinue
         foreach ($folder in $folders) {
-            $size = (Get-ChildItem -Path $folder.FullName -Recurse -ErrorAction SilentlyContinue | Measure-Object -Property Length -Sum).Sum / 1MB
+            $profileSizeMb = 0
+            $profileFiles = Get-ChildItem -Path $folder.FullName -Recurse -File -ErrorAction SilentlyContinue
+            if ($profileFiles)
+            {
+                $profileSizeMb = ($profileFiles | Measure-Object -Property Length -Sum).Sum / 1MB
+            }
+
             $profiles += @{
                 Name = $folder.Name
                 Path = $folder.FullName
-                Size = $size
+                Size = $profileSizeMb
             }
         }
     }
@@ -254,6 +267,126 @@ function Show-AppDataRemovalMenu {
     return $selectedProfiles
 }
 
+function Remove-DesktopShortcutForInstance
+{
+    param([string]$instanceFolderPath)
+
+    $canonicalFolder = $instanceFolderPath
+
+    if (Test-Path $instanceFolderPath)
+    {
+        try
+        {
+            $canonicalFolder = (Resolve-Path -LiteralPath $instanceFolderPath -ErrorAction Stop).ProviderPath
+        }
+        catch
+        {
+            # se Resolve-Path fallisce, uso comunque il path originale per il confronto stringa
+        }
+    }
+
+    if (-not $canonicalFolder)
+    {
+        return
+    }
+
+    Write-Log "[ICON CLEAN] Controllo shortcut desktop per cartella: $canonicalFolder"
+
+    try
+    {
+        $desktopPath = [Environment]::GetFolderPath("Desktop")
+        Write-Log "[ICON CLEAN] Desktop path rilevato: $desktopPath"
+
+        if (-not (Test-Path $desktopPath))
+        {
+            Write-Log "[ICON CLEAN] Desktop path non esiste, nessuna shortcut da analizzare."
+            return
+        }
+
+        $lnkFiles = Get-ChildItem -Path $desktopPath -Filter '*.lnk' -ErrorAction SilentlyContinue
+        $lnkCount = if ($lnkFiles)
+        {
+            $lnkFiles.Count
+        }
+        else
+        {
+            0
+        }
+        Write-Log "[ICON CLEAN] Trovate $lnkCount shortcut (.lnk) sul desktop."
+
+        if (-not $lnkFiles)
+        {
+            return
+        }
+
+        $shell = New-Object -ComObject WScript.Shell
+        $removedCount = 0
+
+        foreach ($lnk in $lnkFiles)
+        {
+            try
+            {
+                $shortcut = $shell.CreateShortcut($lnk.FullName)
+                $targetDir = $null
+
+                $logTargetPath = $shortcut.TargetPath
+                $logWorkingDir = $shortcut.WorkingDirectory
+
+                if ($shortcut.TargetPath)
+                {
+                    try
+                    {
+                        $resolvedTarget = (Resolve-Path -LiteralPath $shortcut.TargetPath -ErrorAction Stop).ProviderPath
+                        $targetDir = Split-Path -Path $resolvedTarget -Parent
+                    }
+                    catch
+                    {
+                        # ignore resolve errors
+                    }
+                }
+
+                if (-not $targetDir -and $shortcut.WorkingDirectory)
+                {
+                    try
+                    {
+                        $targetDir = (Resolve-Path -LiteralPath $shortcut.WorkingDirectory -ErrorAction Stop).ProviderPath
+                    }
+                    catch
+                    {
+                        # ignore resolve errors
+                    }
+                }
+
+                Write-Log "[ICON CLEAN] Analizzo shortcut: $( $lnk.FullName ) | TargetPath='$logTargetPath' | WorkingDir='$logWorkingDir' | targetDir='$targetDir'"
+
+                if ($targetDir -and ($targetDir -ieq $canonicalFolder))
+                {
+                    Remove-Item -Path $lnk.FullName -Force -ErrorAction Stop
+                    $removedCount++
+                    Write-Log "[ICON CLEAN] Rimossa shortcut desktop: $( $lnk.FullName ) (puntava a $targetDir)"
+                }
+            }
+            catch
+            {
+                Write-Log "AVVISO: impossibile analizzare shortcut desktop '$( $lnk.FullName )' : $( $_.Exception.Message )"
+            }
+        }
+
+        if ($removedCount -eq 0)
+        {
+            Write-Log "[ICON CLEAN] Nessuna shortcut trovata da rimuovere per cartella: $canonicalFolder"
+        }
+        else
+        {
+            Write-Log "[ICON CLEAN] Totale shortcut rimosse per $canonicalFolder : $removedCount"
+        }
+    }
+    catch
+    {
+        Write-Log "AVVISO: errore durante la scansione delle shortcut desktop per '$instanceFolderPath' : $( $_.Exception.Message )"
+    }
+}
+
 function Remove-AllMT5InstallersInteractive {
     $baseInstallPath = "C:\MetaTrader"
     
@@ -308,18 +441,41 @@ function Remove-AllMT5InstallersInteractive {
     
     # Step 4: Chiedi se rimuovere AppData
     Write-Host ""
-    $removeAppData = (Read-Host "Vuoi rimuovere anche i profili e dati salvati in AppData (s/n)").Trim().ToLower()
+    $removeAppData = "n"
     
     $profilesToRemove = @()
-    if ($removeAppData -eq "s") {
-        $profiles = Get-TerminalProfiles
-        if ($profiles.Count -gt 0) {
-            $profilesToRemove = Show-AppDataRemovalMenu $profiles
+
+    if ($choice -eq "2")
+    {
+        # Rimuovi TUTTE le istanze: opzionalmente tutti i profili AppData, senza menu di selezione
+        $removeAppData = (Read-Host "Vuoi rimuovere anche TUTTI i profili e dati salvati in AppData (s/n)").Trim().ToLower()
+
+        if ($removeAppData -eq "s")
+        {
+            $profiles = Get-TerminalProfiles
+            if ($profiles.Count -gt 0)
+            {
+                $profilesToRemove = $profiles
+            }
+        }
+    }
+    else
+    {
+        # Rimozione selettiva: permetti di scegliere quali profili AppData rimuovere
+        $removeAppData = (Read-Host "Vuoi rimuovere anche i profili e dati salvati in AppData (s/n)").Trim().ToLower()
+
+        if ($removeAppData -eq "s")
+        {
+            $profiles = Get-TerminalProfiles
+            if ($profiles.Count -gt 0)
+            {
+                $profilesToRemove = Show-AppDataRemovalMenu $profiles
+            }
         }
     }
     
     # Step 5: Conferma
-$confirmed = Show-ConfirmationMenuCleanup -selectedInstallations $toRemove -includeAppData ($profilesToRemove.Count -gt 0)
+    $confirmed = Show-ConfirmationMenuCleanup -selectedInstallations $toRemove -includeAppData ($profilesToRemove.Count -gt 0)
     if (-not $confirmed) {
         Write-Log "Rimozione annullata dall'utente."
         Write-Host "Rimozione annullata."
@@ -345,7 +501,10 @@ $confirmed = Show-ConfirmationMenuCleanup -selectedInstallations $toRemove -incl
     # Rimuovi installazioni
     foreach ($inst in $toRemove) {
         Write-Host "Rimozione: $($inst.Name)..." -NoNewline
-        
+
+        # Prima prova a rimuovere la relativa shortcut desktop collegata a questa cartella
+        Remove-DesktopShortcutForInstance -instanceFolderPath $inst.Path
+
         if (Remove-Safely $inst.Path) {
             Write-Host " [OK]" -ForegroundColor Green
             Write-Log "Rimossa: $($inst.Name)"

@@ -4,6 +4,34 @@
 
 Add-Type -AssemblyName System.Drawing
 
+function Get-ProgressPercent
+{
+    param(
+        [double]$currentStep,
+        [double]$totalSteps,
+        [double]$offset
+    )
+
+    if (-not $totalSteps -or $totalSteps -le 0)
+    {
+        return 0
+    }
+
+    $rawValue = ($currentStep + $offset) * 100.0 / $totalSteps
+
+    if ($rawValue -lt 0)
+    {
+        return 0
+    }
+
+    if ($rawValue -gt 100)
+    {
+        return 100
+    }
+
+    return [int][Math]::Round($rawValue)
+}
+
 function Get-ExistingTerminalFolder($terminalRoot, $instanceLabel) {
     if (-not (Test-Path $terminalRoot)) {
         return $null
@@ -487,7 +515,7 @@ function Install-MT5InstanceHedge {
     )
 
     Write-Log "INSTALL HEDGE: $instanceLabel"
-    Write-Progress -Activity "Installazione $instanceLabel" -Status "Avvio installer" -PercentComplete (($currentStep-1)*100/$totalSteps)
+    Write-Progress -Activity "Installazione $instanceLabel" -Status "Avvio installer" -PercentComplete (Get-ProgressPercent -currentStep $currentStep -totalSteps $totalSteps -offset -1)
 
     $foldersBefore = @()
     if (Test-Path $terminalRoot) {
@@ -504,7 +532,7 @@ function Install-MT5InstanceHedge {
         return
     }
 
-    Write-Progress -Activity "Installazione $instanceLabel" -Status "Attendo creazione profilo" -PercentComplete (($currentStep-0.5)*100/$totalSteps)
+    Write-Progress -Activity "Installazione $instanceLabel" -Status "Attendo creazione profilo" -PercentComplete (Get-ProgressPercent -currentStep $currentStep -totalSteps $totalSteps -offset -0.5)
     Start-Sleep -Seconds 2
 
     $newFolder = Get-NewTerminalFolder $foldersBefore $terminalRoot
@@ -512,8 +540,9 @@ function Install-MT5InstanceHedge {
     Write-Log "Cartella HASH trovata: $newFolder"
 
     if ($newFolder) {
-        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Avvio MT5 per inizializzazione" -PercentComplete (($currentStep-0.3)*100/$totalSteps)
+        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Avvio MT5 per inizializzazione" -PercentComplete (Get-ProgressPercent -currentStep $currentStep -totalSteps $totalSteps -offset -0.3)
 
+        <#
         Write-Log "Avvio MT5 $instanceLabel per inizializzazione..."
         Write-Host "Avvio MT5 (10 secondi)..." -ForegroundColor Cyan
 
@@ -547,8 +576,9 @@ function Install-MT5InstanceHedge {
                 Write-Host "AVVISO - Errore inizializzazione MT5 (continuo comunque)" -ForegroundColor Yellow
             }
         }
+        #>
 
-        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Ripulitura profilo HEDGE (HASH)" -PercentComplete (($currentStep - 0.15)*100/$totalSteps)
+        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Ripulitura profilo HEDGE (HASH)" -PercentComplete (Get-ProgressPercent -currentStep $currentStep -totalSteps $totalSteps -offset -0.15)
         Write-Log "Ripulitura contenuto della cartella profilo HEDGE (HASH)..."
         Write-Log "Cartella profilo HEDGE: $newFolder"
         Write-Host "Ripulitura configurazione profilo HEDGE..." -ForegroundColor Yellow
@@ -599,7 +629,7 @@ function Install-MT5InstanceHedge {
             Write-Host "ERRORE ripulitura profilo HEDGE (continuo comunque)" -ForegroundColor Red
         }
 
-        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Copia config standard_config_edge in profilo HEDGE" -PercentComplete (($currentStep)*100/$totalSteps)
+        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Copia config standard_config_edge in profilo HEDGE" -PercentComplete (Get-ProgressPercent -currentStep $currentStep -totalSteps $totalSteps -offset 0)
         Write-Log "Copia configurazione HEDGE da $configSrc nel profilo $newFolder"
         Write-Host "Copia configurazione standard_config_edge..." -ForegroundColor Cyan
 
@@ -635,7 +665,7 @@ function Install-MT5Instance {
     )
 
     Write-Log "INSTALL PROP: $instanceLabel"
-    Write-Progress -Activity "Installazione $instanceLabel" -Status "Avvio installer" -PercentComplete (($currentStep-1)*100/$totalSteps)
+    Write-Progress -Activity "Installazione $instanceLabel" -Status "Avvio installer" -PercentComplete (Get-ProgressPercent -currentStep $currentStep -totalSteps $totalSteps -offset -1)
 
     $foldersBefore = @()
     if (Test-Path $terminalRoot) {
@@ -652,7 +682,7 @@ function Install-MT5Instance {
         return
     }
 
-    Write-Progress -Activity "Installazione $instanceLabel" -Status "Attendo creazione cartella" -PercentComplete (($currentStep-0.5)*100/$totalSteps)
+    Write-Progress -Activity "Installazione $instanceLabel" -Status "Attendo creazione cartella" -PercentComplete (Get-ProgressPercent -currentStep $currentStep -totalSteps $totalSteps -offset -0.5)
     Start-Sleep -Seconds 2
 
     $newFolder = $null
@@ -669,8 +699,9 @@ function Install-MT5Instance {
     }
 
     if ($newFolder) {
-        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Avvio MT5 per inizializzazione" -PercentComplete (($currentStep-0.3)*100/$totalSteps)
+        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Avvio MT5 per inizializzazione" -PercentComplete (Get-ProgressPercent -currentStep $currentStep -totalSteps $totalSteps -offset -0.3)
 
+        <#
         Write-Log "Avvio MT5 $instanceLabel per inizializzazione..."
         Write-Host "Avvio MT5 (10 secondi)..." -ForegroundColor Cyan
 
@@ -704,8 +735,9 @@ function Install-MT5Instance {
                 Write-Host "AVVISO - Errore inizializzazione MT5 (continuo comunque)" -ForegroundColor Yellow
             }
         }
+        #>
 
-        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Ripulitura profilo HASH" -PercentComplete (($currentStep-0.15)*100/$totalSteps)
+        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Ripulitura profilo HASH" -PercentComplete (Get-ProgressPercent -currentStep $currentStep -totalSteps $totalSteps -offset -0.15)
         Write-Log "Ripulitura contenuto della cartella profilo (HASH)..."
         Write-Log "Cartella profilo: $newFolder"
         Write-Host "Ripulitura configurazione profilo..." -ForegroundColor Yellow
@@ -745,7 +777,7 @@ function Install-MT5Instance {
             Write-Host "ERRORE ripulitura (continuo comunque)" -ForegroundColor Red
         }
 
-        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Copia config personalizzata in profilo HASH" -PercentComplete (($currentStep)*100/$totalSteps)
+        Write-Progress -Activity "Configurazione $instanceLabel" -Status "Copia config personalizzata in profilo HASH" -PercentComplete (Get-ProgressPercent -currentStep $currentStep -totalSteps $totalSteps -offset 0)
         Write-Log "Copia configurazione personalizzata nel profilo HASH..."
         Write-Host "Copia configurazione personalizzata..." -ForegroundColor Cyan
 
@@ -775,6 +807,98 @@ function Install-MT5Instance {
     }
 
     Start-Sleep -Seconds 1
+}
+
+function Remove-GenericMT5Shortcuts
+{
+    param([string]$baseInstallPath)
+
+    if (-not $baseInstallPath)
+    {
+        return
+    }
+
+    $desktopPaths = @(
+        [Environment]::GetFolderPath("Desktop"),
+        [Environment]::GetFolderPath("CommonDesktopDirectory")
+    )
+
+    $shortcutNames = @("MetaTrader 5.lnk", "MetaEditor 5.lnk")
+
+    Write-Log "[ICON CLEAN POST-INSTALL] Controllo shortcut generiche MetaTrader 5/MetaEditor 5 da rimuovere. BaseInstallPath=$baseInstallPath"
+
+    $shell = $null
+
+    foreach ($desktop in $desktopPaths)
+    {
+        if (-not $desktop -or -not (Test-Path $desktop))
+        {
+            continue
+        }
+
+        foreach ($name in $shortcutNames)
+        {
+            $shortcutPath = Join-Path $desktop $name
+
+            if (-not (Test-Path $shortcutPath))
+            {
+                continue
+            }
+
+            try
+            {
+                if (-not $shell)
+                {
+                    $shell = New-Object -ComObject WScript.Shell
+                }
+
+                $shortcut = $shell.CreateShortcut($shortcutPath)
+
+                $targetDir = $null
+                $logTargetPath = $shortcut.TargetPath
+                $logWorkingDir = $shortcut.WorkingDirectory
+
+                if ($shortcut.TargetPath)
+                {
+                    try
+                    {
+                        $resolvedTarget = (Resolve-Path -LiteralPath $shortcut.TargetPath -ErrorAction Stop).ProviderPath
+                        $targetDir = Split-Path -Path $resolvedTarget -Parent
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                if (-not $targetDir -and $shortcut.WorkingDirectory)
+                {
+                    try
+                    {
+                        $targetDir = (Resolve-Path -LiteralPath $shortcut.WorkingDirectory -ErrorAction Stop).ProviderPath
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                Write-Log "[ICON CLEAN POST-INSTALL] Analizzo '$shortcutPath' | TargetPath='$logTargetPath' | WorkingDir='$logWorkingDir' | targetDir='$targetDir'"
+
+                if ($targetDir -and ($targetDir -like (Join-Path $baseInstallPath '*')))
+                {
+                    Remove-Item -Path $shortcutPath -Force -ErrorAction Stop
+                    Write-Log "[ICON CLEAN POST-INSTALL] Rimossa shortcut generica: $shortcutPath (puntava a $targetDir)"
+                }
+                else
+                {
+                    Write-Log "[ICON CLEAN POST-INSTALL] Shortcut lasciata intatta: $shortcutPath"
+                }
+            }
+            catch
+            {
+                Write-Log "[ICON CLEAN POST-INSTALL] AVVISO: impossibile analizzare/rimuovere '$shortcutPath' : $( $_.Exception.Message )"
+            }
+        }
+    }
 }
 
 function Invoke-ArbitexInstaller {
@@ -926,7 +1050,6 @@ function Invoke-ArbitexInstaller {
             } else {
                 Write-Host "SKIP - HEDGE non modificato" -ForegroundColor Yellow
                 Write-Log "Skip HEDGE"
-                $step++
             }
         } else {
             $instanceLabel = "HEDGE"
@@ -970,7 +1093,8 @@ function Invoke-ArbitexInstaller {
     Write-Host ""
     Write-Host "Installazione multipla MT5 COMPLETATA!" -ForegroundColor Green
     if ($createDesktopShortcuts) {
-        Write-Host "Shortcut desktop creati." -ForegroundColor Green
+        Remove-GenericMT5Shortcuts -baseInstallPath $baseInstallPath
+        Write-Host " Shortcut desktop generici rimossi." -ForegroundColor Green
     }
     Write-Log "Installazione multipla MT5 completata."
 }
