@@ -380,6 +380,11 @@ function Copy-ConfigurationFiles {
         $copiedCount = 0
 
         foreach ($item in $configItems) {
+            if ($item.Name -ieq "accounts.dat")
+            {
+                Write-Log "Skip copia accounts.dat da config sorgente: $( $item.FullName )"
+                continue
+            }
             $destPath = Join-Path $profilePath $item.Name
 
             try {
@@ -511,7 +516,8 @@ function Install-MT5InstanceHedge {
         [int]$currentStep,
         [int]$totalSteps,
         [string]$terminalRoot,
-        [bool]$createDesktopShortcut
+        [bool]$createDesktopShortcut,
+        [pscustomobject]$autoLoginConfig = $null
     )
 
     Write-Log "INSTALL HEDGE: $instanceLabel"
@@ -635,6 +641,11 @@ function Install-MT5InstanceHedge {
 
         Copy-ConfigurationFiles -configSrc $configSrc -profilePath $newFolder -instanceLabel $instanceLabel
 
+        if ($autoLoginConfig -and $autoLoginConfig.Login -and $autoLoginConfig.Password -and $autoLoginConfig.Server)
+        {
+            Set-MT5AutoLoginConfig -profilePath $newFolder -autoLoginConfig $autoLoginConfig -instanceLabel $instanceLabel
+        }
+
         if ($createDesktopShortcut) {
             Create-DesktopShortcut -instanceLabel $instanceLabel -customPath $customPath -iconPath $iconPath
         }
@@ -661,7 +672,8 @@ function Install-MT5Instance {
         [int]$totalSteps,
         [string]$terminalRoot,
         [bool]$createDesktopShortcut,
-        [bool]$isReinstall = $false
+        [bool]$isReinstall = $false,
+        [pscustomobject]$autoLoginConfig = $null
     )
 
     Write-Log "INSTALL PROP: $instanceLabel"
@@ -783,6 +795,11 @@ function Install-MT5Instance {
 
         Copy-ConfigurationFiles -configSrc $configSrc -profilePath $newFolder -instanceLabel $instanceLabel
 
+        if ($autoLoginConfig -and $autoLoginConfig.Login -and $autoLoginConfig.Password -and $autoLoginConfig.Server)
+        {
+            Set-MT5AutoLoginConfig -profilePath $newFolder -autoLoginConfig $autoLoginConfig -instanceLabel $instanceLabel
+        }
+
         $terminalIconPath = Join-Path $newFolder "terminal.ico"
         if (Test-Path $iconPath) {
             try {
@@ -807,6 +824,96 @@ function Install-MT5Instance {
     }
 
     Start-Sleep -Seconds 1
+}
+
+function Set-MT5AutoLoginConfig
+{
+    param(
+        [string]$profilePath,
+        [pscustomobject]$autoLoginConfig,
+        [string]$instanceLabel
+    )
+
+    $configDir = Join-Path $profilePath "config"
+    $commonIniPath = Join-Path $configDir "common.ini"
+    if (Test-Path $commonIniPath)
+    {
+        $iniContent = Get-Content -Path $commonIniPath -Encoding UTF8
+        $newContent = @()
+        $inCommon = $false
+        $wroteLogin = $false
+        $wroteServer = $false
+
+        foreach ($line in $iniContent)
+        {
+            if ($line -match '^\[Common\]')
+            {
+                $inCommon = $true
+                $newContent += $line
+                continue
+            }
+
+            if ($line -match '^\[')
+            {
+                if ($inCommon)
+                {
+                    if (-not $wroteLogin)
+                    {
+                        $newContent += "Login=$( $autoLoginConfig.Login )"
+                        $wroteLogin = $true
+                    }
+                    if (-not $wroteServer)
+                    {
+                        $newContent += "Server=$( $autoLoginConfig.Server )"
+                        $wroteServer = $true
+                    }
+                }
+
+                $inCommon = $false
+                $newContent += $line
+                continue
+            }
+
+            if ($inCommon)
+            {
+                if ($line -match '^Login=')
+                {
+                    $newContent += "Login=$( $autoLoginConfig.Login )"
+                    $wroteLogin = $true
+                    continue
+                }
+                elseif ($line -match '^Server=')
+                {
+                    $newContent += "Server=$( $autoLoginConfig.Server )"
+                    $wroteServer = $true
+                    continue
+                }
+            }
+
+            $newContent += $line
+        }
+
+        if ($inCommon)
+        {
+            if (-not $wroteLogin)
+            {
+                $newContent += "Login=$( $autoLoginConfig.Login )"
+            }
+            if (-not $wroteServer)
+            {
+                $newContent += "Server=$( $autoLoginConfig.Server )"
+            }
+        }
+
+        # Aggiunge anche una sezione separata [Login] con password in chiaro
+        $newContent += "[Login]"
+        $newContent += "Login=$( $autoLoginConfig.Login )"
+        $newContent += "Password=$( $autoLoginConfig.Password )"
+        $newContent += "Server=$( $autoLoginConfig.Server )"
+
+        $newContent | Set-Content -Path $commonIniPath -Encoding UTF8
+        Write-Log "Configurazione auto-login aggiornata per $instanceLabel (config: $commonIniPath)"
+    }
 }
 
 function Remove-GenericMT5Shortcuts
@@ -958,6 +1065,59 @@ function Invoke-ArbitexInstaller {
         Write-Log "Desktop shortcuts: NO"
     }
 
+    $autoLoginConfig = $null
+    $autoLoginConfigPath = Join-Path $PSScriptRoot "autologin.json"
+    if (Test-Path $autoLoginConfigPath)
+    {
+        try
+        {
+            Write-Log "Lettura configurazione auto-login da file JSON: $autoLoginConfigPath"
+            $jsonRaw = Get-Content -Path $autoLoginConfigPath -Raw -Encoding UTF8
+            $json = $jsonRaw | ConvertFrom-Json
+
+            # Supporta piu' nomi di campo per compatibilita'
+            $login = $json.Login
+            if (-not $login)
+            {
+                $login = $json.User
+            }
+            if (-not $login)
+            {
+                $login = $json.Username
+            }
+            if (-not $login)
+            {
+                $login = $json.Utente
+            }
+
+            $server = $json.Server
+            $password = $json.Password
+
+            if ($login -and $server -and $password)
+            {
+                $autoLoginConfig = [PSCustomObject]@{
+                    Login = $login
+                    Server = $server
+                    Password = $password
+                }
+                Write-Log "Auto-login abilitato da JSON per le nuove istanze MT5 (login=$login, server=$server)"
+                Write-Log "ATTENZIONE: le credenziali sono salvate in chiaro nel file JSON e nei file di config MT5. Proteggi questo VPS!"
+            }
+            else
+            {
+                Write-Log "Auto-login NON configurato: JSON mancante di uno o piu' campi (login/server/password). File: $autoLoginConfigPath"
+            }
+        }
+        catch
+        {
+            Write-Log "ERRORE lettura/parsing JSON auto-login ($autoLoginConfigPath) : $( $_.Exception.Message )"
+        }
+    }
+    else
+    {
+        Write-Log "File autologin.json non trovato in $PSScriptRoot. Auto-login disabilitato."
+    }
+
     Clear-Host
     Write-Host ""
     Write-Host "=================================================="
@@ -1037,7 +1197,7 @@ function Invoke-ArbitexInstaller {
                 Write-Log "Installa come: $instanceLabel (HEDGE - config in AppData/Terminal)"
                 Install-MT5InstanceHedge -instanceLabel $instanceLabel -setupExe $mt5setupExe -customPath $customPath `
                     -configSrc $edgeConfig -iconPath $iconPath -currentStep $step -totalSteps $totalSteps `
-                    -terminalRoot $terminalRoot -createDesktopShortcut $createDesktopShortcuts
+                    -terminalRoot $terminalRoot -createDesktopShortcut $createDesktopShortcuts -autoLoginConfig $autoLoginConfig
             } elseif ($hedgeChoice -eq "2") {
                 $instanceLabel = "HEDGE"
                 $customPath = Join-Path $baseInstallPath "MetaTrader 5 - $instanceLabel"
@@ -1046,7 +1206,7 @@ function Invoke-ArbitexInstaller {
                 Write-Host "Reinstallazione HEDGE..." -ForegroundColor Cyan
                 Install-MT5InstanceHedge -instanceLabel $instanceLabel -setupExe $mt5setupExe -customPath $customPath `
                     -configSrc $edgeConfig -iconPath $iconPath -currentStep $step -totalSteps $totalSteps `
-                    -terminalRoot $terminalRoot -createDesktopShortcut $createDesktopShortcuts
+                    -terminalRoot $terminalRoot -createDesktopShortcut $createDesktopShortcuts -autoLoginConfig $autoLoginConfig
             } else {
                 Write-Host "SKIP - HEDGE non modificato" -ForegroundColor Yellow
                 Write-Log "Skip HEDGE"
@@ -1058,7 +1218,7 @@ function Invoke-ArbitexInstaller {
             Write-Log "Prima installazione HEDGE (config in AppData/Terminal)"
             Install-MT5InstanceHedge -instanceLabel $instanceLabel -setupExe $mt5setupExe -customPath $customPath `
                 -configSrc $edgeConfig -iconPath $iconPath -currentStep $step -totalSteps $totalSteps `
-                -terminalRoot $terminalRoot -createDesktopShortcut $createDesktopShortcuts
+                -terminalRoot $terminalRoot -createDesktopShortcut $createDesktopShortcuts -autoLoginConfig $autoLoginConfig
         }
 
         $step++
@@ -1084,7 +1244,7 @@ function Invoke-ArbitexInstaller {
 
             Install-MT5Instance -instanceLabel $instanceLabel -setupExe $mt5setupExe -customPath $customPath `
                 -configSrc $propConfig -iconPath $iconPath -instanceNum $instanceNum -currentStep $step -totalSteps $totalSteps `
-                -terminalRoot $terminalRoot -createDesktopShortcut $createDesktopShortcuts -isReinstall $false
+                -terminalRoot $terminalRoot -createDesktopShortcut $createDesktopShortcuts -isReinstall $false -autoLoginConfig $autoLoginConfig
             $step++
         }
     }
